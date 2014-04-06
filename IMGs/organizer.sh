@@ -6,7 +6,8 @@ then
 	exit 1
 fi
 
-dirName="organized"
+dstDir="organized"
+srcDir="unsorted"
 rm -rf "$dirName" 
 
 [ -f "$1" ] && cat $1 | tail -n +2 | awk -F\" '{print $1 tolower($3)}' | awk -F, '{printf "%s,%s,%s\n",$1,$3,$7}' | sort -t, -k2 | sed 's|/|-|g' | { 
@@ -14,9 +15,9 @@ rm -rf "$dirName"
 	while read a b c; 
 	do 
 		[ -z "$a" -o -z "$b" -o -z "$c" ] && continue;
-		[ -d "$dirName/$b" ] || mkdir -p "$dirName/$b"; 
-		[ -f "$a.jpg" ] && { 
-			cd "$dirName/$b"; 
+		[ -d "$dstDir/$b" ] || mkdir -p "$dstDir/$b"; 
+		[ -f "$srcDir/$a.jpg" ] && { 
+			cd "$dstDir/$b"; 
 			if [ -f "${c}-00.jpg" ]
 			then
 				i=1
@@ -29,9 +30,9 @@ rm -rf "$dirName"
 					fi
 					i=$(expr $i + 1)
 				done
-				ln -s "../../$a.jpg" "./$fname";
+				ln -s "../../$srcDir/$a.jpg" "./$fname";
 			else
-				ln -s "../../$a.jpg" "./$c-00.jpg"; 
+				ln -s "../../$srcDir/$a.jpg" "./$c-00.jpg"; 
 			fi
 			cd ../..; 
 		}; 
