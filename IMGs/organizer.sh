@@ -30,9 +30,9 @@ rm -rf "$dirName"
 					fi
 					i=$(expr $i + 1)
 				done
-				ln -s "../../$srcDir/$a.jpg" "./$fname";
+				ln "../../$srcDir/$a.jpg" "./$fname";
 			else
-				ln -s "../../$srcDir/$a.jpg" "./$c-00.jpg"; 
+				ln "../../$srcDir/$a.jpg" "./$c-00.jpg"; 
 			fi
 			cd ../..; 
 		}; 
