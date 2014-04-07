@@ -7,7 +7,7 @@ then
 fi
 
 dstDir="organized"
-srcDir="unsorted"
+srcDir="scaled_800"
 rm -rf "$dirName" 
 
 [ -f "$1" ] && cat $1 | tail -n +2 | awk -F\" '{print $1 tolower($3)}' | awk -F, '{printf "%s,%s,%s\n",$1,$3,$7}' | sort -t, -k2 | sed 's|/|-|g' | { 
