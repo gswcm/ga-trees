@@ -1,0 +1,11 @@
+# from Misc
+#--
+tail -n +340 NativeTreesGeorgia.txt | tr -d "\f" > T1
+sed '/FAMILY/d' T1 | sed '/^\d032*\d040/d' | sed '/^[0-9][0-9]/d' > T2
+grep -n DESCRIPTION T2 | cut -d: -f1 | while read L1; do sed -n "$((L1-2))p" T2; done | awk '{print tolower($0)}' > TreeList
+cat TreeList | while read d; do [ -d "../IMGs/organized/${d}" ] && echo "${d}"; done > TreeListOK
+cat TreeList | while read d; do [ -d "../IMGs/organized/${d}" ] || echo "${d}"; done  > TreeListWithoutImages
+
+# from IMGs/organized
+#--
+for d in *; do grep "$d" ../../Misc/TreeList > /dev/null || echo "$d"; done > ../../Misc/TreeListWithoutDescription
