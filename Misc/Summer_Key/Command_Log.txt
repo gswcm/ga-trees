@@ -1,0 +1,1 @@
+sed '/^\s*$/d' Summer\ Key.txt | tr -cd '[a-z][A-Z][0-9] ?.\n[-]' | tr -s ' ' | sed 's/^ //' | sed '/[0-9][0-9]*/!d' > T1

@@ -1,0 +1,169 @@
+Summer Key for Trees
+1. Are the leaves less than 3mm wide, or resemble needles or scales?
+Yes - Gymnosperms  3
+     No - Angiosperms  10 
+Gymnosperms
+3.  Do the leaves resemble feathers?
+     Yes - Taxodium Distichum, Baldcypress	Tree ID 12
+     No - 4
+4.  Do the leaves have scales?
+     Yes - 8 
+     No - 5
+5.  Do the leaves resemble needles in clusters of 2 - 5?
+     Yes - Pinus, Pine	Tree ID 1-10
+     No -Tsuga Canadensis, Eastern Hemlock	Tree ID 11
+8.  Do the cones resemble small blue berries?
+     Yes - Juniperus, Red-cedar, Cedar Tree ID 14
+     No - Chamaecyparis, Atlantic white-cedar, White cedar Tree ID 13
+Angiosperms - Dicotyledons
+10.  Are the leaves alternate?
+	Yes - 11 
+     No - 13
+11.  Are the leaves simple or compound?
+     Simple - 12
+     Compound - 25
+12.  Are the leaves evergreen?
+     Yes - 37
+     No - 50
+Dicotyledon with opposite or whorled leaves
+13.  Are the leaves compound or simple?
+     Compound - 14
+     Simple - 16
+14.  Do leaves come off of the end of the stem, or different points?
+     Just the end - Aesculus Sylvatica, Buckeye		Tree ID 81
+	Different points of the stem - 15
+15.  How many leaflets are on the stem?
+     5 or more - Fraxinus, Ash		Tree ID 90-91
+     Less than 5 - Acer negundo, Boxelder	Tree ID 80
+16.  Are the leaves heart shaped?
+     Yes -  Catalpa bignonioides, Southern Catalpa	Tree ID 92
+     No - 18
+18.  Are the leaves lobed?
+     Yes - Acer, Maple	Tree ID 77-79
+     No - Cornus Florida, Dogwood	Tree ID 86
+Dicotyledon with alternate compound leaves
+25.  Are the leaves compounded more than once?
+     Yes - Gleditsia Tricanthos, Locust, Honeylocust	Tree ID 71
+     No - 29
+29.  Do the stems have thorns?
+     Yes - 30
+     No - 31
+30. Do the stems have an even number of leaflets?
+     Yes - Gleditsia Tricanthos, Honeylocust	Tree ID 71
+	No - Robinia pseudo-acacia, Black locust, Locust	Tree ID 72
+31.  If stem is cut long ways, are there little chambers inside?
+     Yes - Juglans, Walnut	Tree ID 15-16
+     No - 32
+32.  Are the leaves serrated all the way around?
+     Yes - Carya, Hickory, Hockory-nut, Pecan	Tree ID 17-24
+     No - Robinia pseudo-acacia, Black locust, Locust	Tree ID 72
+Dicotyledon with simple, alternative, evergreen leaves
+37.  If the stem is cut open, is there a star shape in the cross section?
+     Yes - Quercus, Oak	Tree ID 35-52
+     No - 38
+38.  Is the terminal bud large and possibly wooly?
+     Yes - Magnolia, Magnolia	Tree ID 59-63
+No - Ilex, Holly	Tree ID 74-76
+Dicotyledon with alternate, simple, deciduous leaves 
+50.  Are leaves and buds clustered at the ends of branches
+     Yes - Quercus, Oak	Tree ID 35-52
+No - 51
+51.  Are there any lobed leaves?
+     Yes – 93
+     No - 52
+52.  Do the leaves attach to 2 opposite side of the twig?
+     Yes - 53
+     No - 71
+53. Do the leaves have 1 large vein going down the middle of the leaf blade?
+     Yes - 57
+     No - 54
+54.  Are the leaves smooth along the edges?
+     Yes - 55
+     No - 56
+55.  Are the leaves heart shaped, with more than 4 main veins near the base of the leaf?
+     Yes - Cercis Canadensis, Eastern Redbud	Tree ID 73
+     No - Celtis, Sugarberry, Hackberry	Tree ID 56-57
+56.  Are the leaves as wide as they are long?
+     Yes - Tilia Heterophylla, White Basswood	Tree ID 82
+No - Celtis, Sugarberry, Hackberry	Tree ID 56-57
+57.  Are the leaves smooth all the way around the edges?
+     Yes - 59
+     No - 60
+59.  Are the leaves pinnately veined or palmately veined?
+     Pinnate - Diospyros virginiana, Common persimmon	Tree ID 88
+     Palmate - Celtis, Sugarberry, Hackberry	Tree ID 56-57
+60.  Do the petioles, leaf stems, have at least 1 gland near the leaf blade?
+     Yes - Prunus, Cherry, Black cherry, Wild cherry	Tree ID 69
+     No - 61
+61.  Are the serrations teeth more than 5mm apart?
+     Yes - 62
+     No - 63
+62.  Do the teeth have bristly tips?
+     Yes - Castanea, Chestnut, Chinkapin	Tree ID 33-34
+     No - Fagus grandifolia, Beech	Tree ID 32
+63.  If stem is cut long ways at the nodes, are there little chambers inside? 
+     Yes- Celtis, Sugarberry, Hackberry 	Tree ID 56-57
+     No - 64
+64.  Does the bark peel off in large papery sheets?
+     Yes - Betula, Birch	Tree ID 28-29
+     No - 66
+66.  Are the petioles, leaf stems, over 2.5 cm long?
+     Yes - 67
+     No - 68
+67.  Are there buds at the end of the twigs?
+     Yes - Amelanchier Arborea, Serviceberry, Sarvice, Shadbush	Tree ID 68
+No - Tilia Heterophylla, White Basswood	Tree ID 82
+68.  Are the leaves noticeably uneven at the base?
+     Yes - Ulmus, Elm	Tree ID 53-55
+     No - 70
+70.  Are the leaves doubly serrate or mostly once serrate?
+     Doubly serrate - Carpinus caroliniana, American hornbeam, Blue-beech, Ironwood	Tree ID 30
+Mostly once serrate - Oystrya virginiane, Eastern hophornbeam	Tree ID 31
+71.  Do the twigs have thorns?
+     Yes - 74
+     No - 76
+74.  Do the petioles, leaf stems, have at least 1 noticible gland near the leaf blade?
+     Yes - Prunus, Plum 	Tree ID 69
+No - Crataegus, Hawthorn, Thorn, Red haw, May haw	Tree ID 70
+76.  Are there little buds, without scars, directly above main buds on the twig?
+     Yes - Halesia, Silverbell	Tree ID 89
+     No - 78
+78.  Are the leaf margins smooth along the edge?
+     Yes - 82
+     No - 84
+82.  Are the stipular scars around the twig nodes?
+     Yes - Magnolia, Magnolia	Tree ID 59-63
+     No - 83
+83.  Is there a true terminal bud present?
+	Yes - Nyssa, Tupelo, Blackgum, Sourgum, Black tupelo, Watergum	Tree ID 83-85
+     No - Diospyros virginiana, Common persimmon	Tree ID 88
+84.  Are the leaves much longer than they are wide?
+     Yes - 86
+     No - 85
+85.  Do the leaves have fine hair on the bottom?
+     Yes - Morus Rubra, Mulberry	Tree ID 58
+     No - Populus, Cottonwood, Poplar	Tree ID 26-27
+86.  Are the leaves 4 or more times longer than they are wide? 
+     Yes - Salix Nigra, Willow		Tree ID 25
+     No - 87
+87.  Are the teeth 5mm apart with bristly tips?
+     Yes - Castanea, Chestnut, Chinkapin	Tree ID 33-34
+     No - 88
+88.  Do the twigs taste bitter or sour?
+     Yes - 89
+     No - Ilex, Holly	Tree ID 74-76
+89.  Do the twigs have a terminal bud?
+Yes - Prunus, Cherry, Black cherry, Wild cherry	Tree ID 69
+     No - Oxydendrum arboreum, Sourwood	Tree ID 87
+93.  Are there any non-lobed leaves?
+     Yes - 94
+     No - 96
+94.  Are the leaves serrated or smooth?
+     Smooth - Sassafras albidum, Sassafras		Tree ID 65
+     Serrated - Morus Rubra, Mulberry	Tree ID 58
+96.  Are there stipular scars?
+     Yes - 97
+     No - Liquidambar styraciflua, Sweetgum	Tree ID 66
+97.  Are the leaves pinnately veined or palmately veined?
+     Pinnately - Liriodendron tulipifera, Yellow-poplar, Tupliptree	Tree ID 64
+     Palmately - Platanus occidentalis, American sycamore	Tree ID 67
