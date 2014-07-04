@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent" >
+
+   <ScrollView 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerInParent="true" >
+
+
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+		>
+            <Gallery android:id="@+id/ImgView" 
+    		android:layout_width="match_parent"
+    		android:layout_height="match_parent"/>
+            
+         <TextView
+             android:id="@+id/cnameHeader"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Common Name:"
+             android:textStyle="bold"
+             android:layout_margin="10dp"/>
+	      
+        <TextView
+            android:id="@+id/cnameView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"            
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"/>        
+             
+         <TextView
+            android:id="@+id/bnameHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Botanical Name:"
+            android:textStyle="bold"
+            android:layout_margin="10dp"/>
+         
+         <TextView
+            android:id="@+id/bnameView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"/>
+         
+             <TextView
+            android:id="@+id/anameHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Alternative Name:"
+            android:textStyle="bold"
+            android:layout_margin="10dp"/>
+             
+        <TextView
+            android:id="@+id/anameView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"/>
+        
+        <TextView
+            android:id="@+id/desHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description:"
+            android:textStyle="bold"
+            android:layout_margin="10dp"/>
+        
+        <TextView
+            android:id="@+id/desView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"/>
+        
+        <TextView
+            android:id="@+id/woodHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Wood:"
+            android:textStyle="bold"
+            android:layout_margin="10dp"/>
+        
+        <TextView
+            android:id="@+id/woodView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"/>
+        
+          <TextView
+            android:id="@+id/UseHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Uses:"
+            android:textStyle="bold"
+            android:layout_margin="10dp"/>
+          
+        <TextView
+            android:id="@+id/UsesView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"/>
+        
+          <TextView
+            android:id="@+id/KeyHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Key Characteristics:"
+            android:textStyle="bold"
+            android:layout_margin="10dp"/>
+          
+        <TextView
+            android:id="@+id/KeyView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"/>
+        
+    	   <TextView
+            android:id="@+id/DistHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Distribution:"
+            android:textStyle="bold"
+            android:layout_margin="10dp"/>
+    	   
+        <TextView
+            android:id="@+id/DistView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"/>
+            
+       
+        
+    </LinearLayout>
+     
+
+</ScrollView>
+</RelativeLayout>
