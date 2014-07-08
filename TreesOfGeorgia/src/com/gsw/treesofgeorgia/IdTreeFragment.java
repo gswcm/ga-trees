@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -22,10 +23,10 @@ import android.widget.TextView;
 public class IdTreeFragment extends Fragment {
 	
 	protected SQLiteDatabase database=null;
-	static boolean yesTreeEnd;
-	static boolean noTreeEnd;
+	static boolean yesTreeEnd = false;
+	static boolean noTreeEnd = false;
 	Quest_Main idQuest=new Quest_Main();
-	static int questionId;
+	static int questionId = 1;
 	static int answerWidth;
 	static int[] questionNum = new int[25];
 	
@@ -48,12 +49,7 @@ public class IdTreeFragment extends Fragment {
 		DatabaseAdapter adapter=new DatabaseAdapter(MainActivity.con);
 		adapter.open();
 		database=SQLiteDatabase.openOrCreateDatabase("data/data/com.gsw.treesofgeorgia/databases/trees.db", null);
-		
-		
-		yesTreeEnd = false;	
-		noTreeEnd = false;
-		questionId=1;
-		
+				
 		questionNum[questionId] = 10000;
 				
 		getQuestionData(questionNum[questionId]);
@@ -64,25 +60,24 @@ public class IdTreeFragment extends Fragment {
 		
 
 		answerWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 160, getResources().getDisplayMetrics());
+
 		
 		Button yes=new Button(MainActivity.con);
 		yes.setOnClickListener(new yesLis());
-		yes.setTextColor(Color.BLACK);
 		yes.setText(idQuest.getYesText());
 		yes.setPadding(4, 4, 4, 4);
 		yes.setId(101);
-		
 		
 		TextView start = new TextView(MainActivity.con);
 		start.setOnClickListener(new textLis());
 		start.setText(idQuest.getqText());
 		start.setTextColor(Color.BLACK);
+		start.setPadding(50, 25, 50, 25);
 		start.setId(questionId);
-		
+		start.setTypeface(null, Typeface.BOLD);
 		
 		Button no=new Button(MainActivity.con);
 		no.setOnClickListener(new noLis());
-		no.setTextColor(Color.BLACK);
 		no.setText(idQuest.getNoText());
 		no.setPadding(4, 4, 4, 4);
 		no.setId(1001);
@@ -95,37 +90,20 @@ public class IdTreeFragment extends Fragment {
 		
 		RelativeLayout.LayoutParams startLp = new RelativeLayout.LayoutParams(
 				RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-		
-		
+				
 		RelativeLayout.LayoutParams noLp = new RelativeLayout.LayoutParams(
 				answerWidth, RelativeLayout.LayoutParams.WRAP_CONTENT);
 		noLp.addRule(RelativeLayout.ALIGN_TOP, yes.getId());
 		noLp.addRule(RelativeLayout.ALIGN_BOTTOM, yes.getId());
 		noLp.addRule(RelativeLayout.RIGHT_OF, yes.getId());
-		
-		/**RelativeLayout.LayoutParams yesLp = new RelativeLayout.LayoutParams(
-				answerWidth, RelativeLayout.LayoutParams.WRAP_CONTENT);
-		yesLp.addRule(RelativeLayout.BELOW, start.getId());
-		yesLp.addRule(RelativeLayout.ALIGN_LEFT, start.getId());
-		
-		RelativeLayout.LayoutParams startLp = new RelativeLayout.LayoutParams(
-				RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-		startLp.addRule(RelativeLayout.CENTER_HORIZONTAL, -1);
-		
-		
-		RelativeLayout.LayoutParams noLp = new RelativeLayout.LayoutParams(
-				answerWidth, RelativeLayout.LayoutParams.WRAP_CONTENT);
-		noLp.addRule(RelativeLayout.BELOW, start.getId());
-		noLp.addRule(RelativeLayout.ALIGN_RIGHT, start.getId());
-		noLp.addRule(RelativeLayout.ALIGN_TOP, yes.getId());
-		noLp.addRule(RelativeLayout.ALIGN_BOTTOM, yes.getId());
-		noLp.addRule(RelativeLayout.RIGHT_OF, yes.getId());**/
 				
 
 		relative.addView(start, startLp);
 		relative.addView(yes, yesLp);
 		relative.addView(no, noLp);
+		
 		return view;
+	
 		
 	}
 	
@@ -149,17 +127,9 @@ public class IdTreeFragment extends Fragment {
 					
 					Cursor cur1=database.rawQuery("select group_id from tree_main where tree_id="+low, null);
 					cur1.moveToFirst();
-					int groupId = cur1.getInt(cur1.getColumnIndex("group_id"));
 					
 					FragmentTransaction trans = getFragmentManager()
 							.beginTransaction();
-					new BrowseSpeciesFragment();
-					trans.replace(R.id.rootFrame, BrowseSpeciesFragment.newInstance(groupId));
-					trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-					trans.addToBackStack(null);
-					
-					//trans.commit();
-					
 					new TreeFragment();
 					trans.replace(R.id.rootFrame, TreeFragment.newInstance(low));
 					trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -197,11 +167,15 @@ public class IdTreeFragment extends Fragment {
 
 			else{
 				
-				/**View view = getView();
+				View view = getView();
 				
-				TextView text = (TextView) view.findViewById(questionNum[questionId]);
+				TextView text = (TextView) view.findViewById(questionId);
 				
-				text.setText(text.getText() + " " + idQuest.getYesText());**/
+				text.setText(text.getText() + " " + idQuest.getYesText());
+				
+				text.setTextColor(Color.GRAY);
+				
+				text.setTypeface(null, Typeface.NORMAL);
 				
 				questionId++;
 				
@@ -231,16 +205,8 @@ public class IdTreeFragment extends Fragment {
 					if (low == high){
 						Cursor cur1=database.rawQuery("select group_id from tree_main where tree_id="+low, null);
 						cur1.moveToFirst();
-						int groupId = cur1.getInt(cur1.getColumnIndex("group_id"));
 						FragmentTransaction trans = getFragmentManager()
 								.beginTransaction();
-						new BrowseSpeciesFragment();
-						trans.replace(R.id.rootFrame, BrowseSpeciesFragment.newInstance(groupId));
-						trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-						trans.addToBackStack(null);
-						
-						//trans.commit();
-						
 						new TreeFragment();
 						trans.replace(R.id.rootFrame, TreeFragment.newInstance(low));
 						trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -276,11 +242,15 @@ public class IdTreeFragment extends Fragment {
 				
 				else{
 					
-					/**View view = getView();
+					View view = getView();
 					
-				    TextView text = (TextView) view.findViewById(questionNum[questionId]);
+				    TextView text = (TextView) view.findViewById(questionId);
 					
-					text.setText(text.getText() + " " + idQuest.getNoText());**/
+					text.setText(text.getText() + " " + idQuest.getNoText());
+					
+					text.setTextColor(Color.GRAY);
+					
+					text.setTypeface(null, Typeface.NORMAL);
 					
 					questionId++;
 					
@@ -303,56 +273,14 @@ public class IdTreeFragment extends Fragment {
 			
 			relative.removeView(view.findViewById(101));
 			relative.removeView(view.findViewById(1001));
-			
-			/**int j = 0;
-			
-			for (int i = 0 ; i <questionId ; i++){
-				if (questionNum[i] == id){
-					j = i;
-					break;
-				}
-			}
-			**/
-			for (int i = id + 1; i <= questionId ; i++){
+			for (int i = id; i <= questionId ; i++){
 				relative.removeView(relative.findViewById(i));
 			}
 			
 			questionId = id;
-			
+			questionAnswered(questionNum[questionId]);
 			Log.v(" questionId = " + questionId, " getting data for id " + questionNum[questionId]);
 			getQuestionData(questionNum[questionId]);
-			
-			
-			Button yes=new Button(MainActivity.con);
-			yes.setOnClickListener(new yesLis());
-			yes.setTextColor(Color.BLACK);
-			yes.setText(idQuest.getYesText());
-			yes.setPadding(4, 4, 4, 4);
-			yes.setId(101);
-			
-			
-			Button no=new Button(MainActivity.con);
-			no.setOnClickListener(new noLis());
-			no.setTextColor(Color.BLACK);
-			no.setText(idQuest.getNoText());
-			no.setPadding(4, 4, 4, 4);
-			no.setId(1001);
-			
-			RelativeLayout.LayoutParams yesLp = new RelativeLayout.LayoutParams(
-					answerWidth, RelativeLayout.LayoutParams.WRAP_CONTENT);
-			yesLp.addRule(RelativeLayout.BELOW, questionId);
-			yesLp.addRule(RelativeLayout.ALIGN_LEFT, questionId);
-			
-			RelativeLayout.LayoutParams noLp = new RelativeLayout.LayoutParams(
-					answerWidth, RelativeLayout.LayoutParams.WRAP_CONTENT);
-			noLp.addRule(RelativeLayout.BELOW, questionId);
-			noLp.addRule(RelativeLayout.ALIGN_RIGHT, questionId);
-			noLp.addRule(RelativeLayout.ALIGN_BOTTOM, yes.getId());
-			noLp.addRule(RelativeLayout.RIGHT_OF, yes.getId());
-					
-			relative.addView(yes, yesLp);
-			relative.addView(no, noLp);
-			
 		}
 		
 	}
@@ -374,7 +302,7 @@ public class IdTreeFragment extends Fragment {
 			
 		Button yes = new Button(MainActivity.con);
 		yes.setOnClickListener(new yesLis());
-		yes.setTextColor(Color.BLACK);
+		//yes.setTextColor(Color.BLACK);
 		yes.setText(idQuest.getYesText());
 		yes.setPadding(4, 4, 4, 4);
 		yes.setId(101);
@@ -385,12 +313,14 @@ public class IdTreeFragment extends Fragment {
 		question.setBackgroundColor(Color.TRANSPARENT);
 		question.setText(idQuest.getqText());
 		question.setTextColor(Color.BLACK);
+		question.setPadding(50, 25, 50, 25);
+		question.setTypeface(null, Typeface.BOLD);
 		question.setId(questionId);
 		
 		
 		Button no = new Button(MainActivity.con);
 		no.setOnClickListener(new noLis());
-		no.setTextColor(Color.BLACK);
+		//no.setTextColor(Color.BLACK);
 		no.setText(idQuest.getNoText());
 		no.setPadding(4, 4, 4, 4);
 		no.setId(1001);
