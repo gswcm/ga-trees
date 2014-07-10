@@ -17,9 +17,28 @@ android:layout_height="match_parent" >
         android:layout_height="wrap_content"
         android:orientation="vertical"
 		>
-            <Gallery android:id="@+id/ImgView" 
-    		android:layout_width="match_parent"
-    		android:layout_height="match_parent"/>
+		 <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp">
+        
+    		<LinearLayout
+            android:id="@+id/mygallery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"/>
+    		
+		</HorizontalScrollView>     
+		
+		<ImageView
+        android:id="@+id/displayImage"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:contentDescription="Tree Pictures"
+        android:layout_weight="1.0"
+        android:layout_marginTop="5dp"/>
+		           
             
          <TextView
              android:id="@+id/cnameHeader"

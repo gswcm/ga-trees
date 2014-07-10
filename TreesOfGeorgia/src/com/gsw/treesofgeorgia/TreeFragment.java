@@ -2,29 +2,34 @@ package com.gsw.treesofgeorgia;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.InputStream;
 
 import com.gsw.treesofgeorgia.R;
 import com.gsw.DB.Tree_Main;
-import com.gsw.Image.ImageAdapter;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;	
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Gallery;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
 
-public class TreeFragment extends Fragment 
+public class TreeFragment extends Fragment implements OnClickListener
 {
-	Gallery g;
+	
+	//Gallery g;
 	Bundle b;
 	Intent intent;
 	Tree_Main tree;
@@ -87,25 +92,34 @@ public class TreeFragment extends Fragment
         TextView desView=(TextView)view.findViewById(R.id.desView);
         desView.setText(desc);
         
-        
-        String[] flLists;
-		 ArrayList<String> fileList=new ArrayList<String>();
-        try {
-			flLists = getActivity().getAssets().list("organized.reduced/"+commonName.toLowerCase());
+        final ImageView diplayImage = (ImageView) view.findViewById(R.id.displayImage);
+        final LinearLayout myGallery = (LinearLayout) view.findViewById(R.id.mygallery);
 
-			 for (int i = 0; i < flLists.length; i++) {
-				fileList.add("organized.reduced/"+commonName.toLowerCase()+"/"+flLists[i]);
-				Log.v("Jeff", flLists[i]);
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		    g=(Gallery)view.findViewById(R.id.ImgView);
-	        ImageAdapter adapter=new ImageAdapter(getActivity(), fileList);
-	        g.setAdapter(adapter);
-	        
+        try {
+            String galleryDirectoryName = "organized.reduced/"+commonName.toLowerCase();
+            String[] listImages = getActivity().getAssets().list(galleryDirectoryName);
+            for (String imageName : listImages) {
+                InputStream is = getActivity().getAssets().open(galleryDirectoryName + "/" + imageName);
+                final Bitmap bitmap = BitmapFactory.decodeStream(is);
+
+                ImageView imageView = new ImageView(MainActivity.con);
+                imageView.setLayoutParams(new ViewGroup.LayoutParams(getDp(500), getDp(500)));
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                imageView.setImageBitmap(bitmap);
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        diplayImage.setImageBitmap(bitmap);
+                    }
+                });
+
+                myGallery.addView(imageView);
+            }
+        } catch (IOException e) {
+            Log.e("GalleryWithHorizontalScrollView", e.getMessage(), e);
+        }
+
+              
 	    return view;    
 	}
 	public void onCreate(Bundle savedInstanceState) 
@@ -142,7 +156,19 @@ public class TreeFragment extends Fragment
 		
 		
 	}
+
+
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		
+	}
+	public int getDp(int i){
+		
+	return ((int) ((i / Resources.getSystem().getDisplayMetrics().density)+0.5));
 	
+	}
  
 
 }
