@@ -6,6 +6,7 @@ import com.gsw.DB.Tree_Main;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Html;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -46,7 +47,7 @@ public class BrowseSpeciesFragment extends Fragment {
 			{
 				Button btn=new Button(MainActivity.con);
 				Tree_Main temp=trees.get(i);
-				btn.setText(temp.getcName()+"/"+temp.getbName());
+				btn.setText(Html.fromHtml(temp.getcName()+"<br\\>     <small>"+temp.getbName()+"</small>"));
 				btn.setId(temp.getTree_id());
 				btn.setOnClickListener(new SecondLis());
 					
@@ -54,7 +55,7 @@ public class BrowseSpeciesFragment extends Fragment {
 				linear.addView(btn);
 				
 			}
-
+			database.close();
 			view.addView(linear);
 			return view;
 		}
@@ -65,7 +66,7 @@ public class BrowseSpeciesFragment extends Fragment {
 				FragmentTransaction trans = getFragmentManager()
 						.beginTransaction();
 				new TreeFragment();
-				trans.replace(R.id.rootFrame, TreeFragment.newInstance(v.getId()));
+				trans.replace(R.id.rootFrame, TreeFragment.newInstance(v.getId()), "treeFragment");
 				trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 				trans.addToBackStack(null);
 
@@ -74,8 +75,9 @@ public class BrowseSpeciesFragment extends Fragment {
 
 		}
 	 
-		private ArrayList<Tree_Main> getTrees(int ID)
+	 private ArrayList<Tree_Main> getTrees(int ID)
 		{
+			database=SQLiteDatabase.openOrCreateDatabase("data/data/com.gsw.treesofgeorgia/databases/trees.db", null);
 			Cursor cur=database.rawQuery("select cName,bName,tree_id from tree_main where group_id="+ID,null);
 			if (cur!=null) 
 			{
@@ -94,10 +96,12 @@ public class BrowseSpeciesFragment extends Fragment {
 					} while (cur.moveToNext());
 					
 				}
+				database.close();
 				return tree_Temp;
 			}
 			
 			else {
+				database.close();
 				return null;
 			}
 			

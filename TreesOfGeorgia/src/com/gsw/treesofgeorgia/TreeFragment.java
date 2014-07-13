@@ -63,7 +63,9 @@ public class TreeFragment extends Fragment implements OnClickListener
         final String desc = tree.getDesc();
         
         TextView cnameView=(TextView) view.findViewById(R.id.cnameView);
+        TextView cnameTitle = (TextView) view.findViewById(R.id.cnameTitle);
         
+        cnameTitle.setText(commonName);
         cnameView.setText(commonName);
         
         TextView anameView=(TextView)view.findViewById(R.id.anameView);
@@ -170,5 +172,5 @@ public class TreeFragment extends Fragment implements OnClickListener
 	
 	}
  
-
+	
 }
