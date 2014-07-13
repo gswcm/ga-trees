@@ -3,6 +3,7 @@ package com.gsw.treesofgeorgia;
 import java.util.Locale;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -174,7 +175,15 @@ public class MainActivity extends ActionBarActivity implements
 
 	}	
 	
+	/**@Override
+	   public void onConfigurationChanged(Configuration newConfig) {
+		
+		android.app.FragmentManager manage = getFragmentManager();
+			for (int i = 0 ; i < manage.getBackStackEntryCount() ; i++){
+				
+				int backStackId = manage.getBackStackEntryAt(i).getId();
 
+			    manage.popBackStack(backStackId, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+			}
+	}**/
 }
-
-

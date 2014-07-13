@@ -18,7 +18,7 @@ public class RootFragment extends Fragment {
 				.beginTransaction();
 		
 		transaction.replace(R.id.rootFrame, new BrowseGenusFragment());
-
+				
 		transaction.commit();
 
 		return view;
