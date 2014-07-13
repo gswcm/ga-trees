@@ -4,9 +4,7 @@ import com.gsw.DB.DatabaseAdapter;
 import com.gsw.DB.Quest_Main;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.Html;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -36,11 +34,14 @@ public class IdTreeFragment extends Fragment {
 		Fragment idTreeFrag = new IdTreeFragment();
 		return idTreeFrag;
 	}
-		
-	public void onCreate(Bundle savedInstanceState) {  
+	
+
+	
+	 public void onCreate(Bundle savedInstanceState) {  
 	    super.onCreate(savedInstanceState);  
 	 
 	 }
+	
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState){
@@ -62,7 +63,7 @@ public class IdTreeFragment extends Fragment {
 
 		
 		Button yes=new Button(MainActivity.con);
-		yes.setOnClickListener(new btnLis());
+		yes.setOnClickListener(new yesLis());
 		yes.setText(idQuest.getYesText());
 		yes.setPadding(4, 4, 4, 4);
 		yes.setId(101);
@@ -76,7 +77,7 @@ public class IdTreeFragment extends Fragment {
 		start.setTypeface(null, Typeface.BOLD);
 		
 		Button no=new Button(MainActivity.con);
-		no.setOnClickListener(new btnLis());
+		no.setOnClickListener(new noLis());
 		no.setText(idQuest.getNoText());
 		no.setPadding(4, 4, 4, 4);
 		no.setId(1001);
@@ -100,27 +101,21 @@ public class IdTreeFragment extends Fragment {
 		relative.addView(start, startLp);
 		relative.addView(yes, yesLp);
 		relative.addView(no, noLp);
-		database.close();
+		
 		return view;
 	
 		
 	}
 	
-	class btnLis implements OnClickListener {	
+	
+	class yesLis implements OnClickListener {	
 			
 		@Override
 		public void onClick(View v) {
 		
-			
-			int id = 0;
-			switch (v.getId()){
-			
-			case 101 : id = idQuest.getYesNav(); break;
-			case 1001 : id = idQuest.getNoNav(); break;
-			}
-			
-			database=SQLiteDatabase.openOrCreateDatabase("data/data/com.gsw.treesofgeorgia/databases/trees.db", null);			
-			if(yesTreeEnd || noTreeEnd){
+			int id = idQuest.getYesNav();
+						
+			if(yesTreeEnd){
 				
 				Cursor cur=database.rawQuery("select * from tree_id_range where range_id="+id, null);
 				cur.moveToFirst();
@@ -132,33 +127,15 @@ public class IdTreeFragment extends Fragment {
 					
 					Cursor cur1=database.rawQuery("select group_id from tree_main where tree_id="+low, null);
 					cur1.moveToFirst();
-					int groupId = cur1.getInt(cur1.getColumnIndex("group_id"));
-					database.close();
+					
 					FragmentTransaction trans = getFragmentManager()
 							.beginTransaction();
-					FragmentManager manage = getFragmentManager();
-					if (manage.getBackStackEntryCount() >= 1){
-						for (int i = 0 ; i < manage.getBackStackEntryCount() ; i++){
-							
-							int backStackId = manage.getBackStackEntryAt(i).getId();
-
-						    manage.popBackStack(backStackId, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-						}
-					}
-				
-					trans.replace(R.id.rootFrame, BrowseSpeciesFragment.newInstance(groupId), "speciesFragment");
+					new TreeFragment();
+					trans.replace(R.id.rootFrame, TreeFragment.newInstance(low));
 					trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 					trans.addToBackStack(null);
-					trans.commit();
-					
-					FragmentTransaction trans1 = getFragmentManager()
-							.beginTransaction();
-					//new TreeFragment();
-					trans1.replace(R.id.rootFrame, TreeFragment.newInstance(low), "treeFragment");
-					trans1.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-					trans1.addToBackStack(null);
 
-					trans1.commit();
+					trans.commit();
 					
 					
 				}
@@ -167,19 +144,11 @@ public class IdTreeFragment extends Fragment {
 					Cursor cur1=database.rawQuery("select group_id from tree_main where tree_id="+low, null);
 					cur1.moveToFirst();
 					int groupId = cur1.getInt(cur1.getColumnIndex("group_id"));
-					database.close();
+					
 					FragmentTransaction trans = getFragmentManager()
 							.beginTransaction();
-					FragmentManager manage = getFragmentManager();
-					if (manage.getBackStackEntryCount() >= 1){
-						for (int i = 0 ; i < manage.getBackStackEntryCount() ; i++){
-							
-							int backStackId = manage.getBackStackEntryAt(i).getId();
-
-						    manage.popBackStack(backStackId, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-						}
-					}
-					trans.replace(R.id.rootFrame, BrowseSpeciesFragment.newInstance(groupId), "speciesFragment");
+					new BrowseSpeciesFragment();
+					trans.replace(R.id.rootFrame, BrowseSpeciesFragment.newInstance(groupId));
 					trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 					trans.addToBackStack(null);
 
@@ -190,6 +159,7 @@ public class IdTreeFragment extends Fragment {
 								
 				}
 				
+				yesTreeEnd = false;
 				
 				MainActivity.actionBar.selectTab(MainActivity.actionBar.getTabAt(0));
 			}
@@ -198,28 +168,100 @@ public class IdTreeFragment extends Fragment {
 			else{
 				
 				View view = getView();
-				database.close();
-				TextView text = (TextView) view.findViewById(questionId);
-				switch (v.getId()){
 				
-				case 101 : text.setText(Html.fromHtml(text.getText() + " <strong>" + idQuest.getYesText() + "</strong>")); break;
-				case 1001 : text.setText(Html.fromHtml(text.getText() + " <strong>" + idQuest.getNoText() + "</strong>")); break;
-				}
+				TextView text = (TextView) view.findViewById(questionId);
+				
+				text.setText(text.getText() + " " + idQuest.getYesText());
 				
 				text.setTextColor(Color.GRAY);
 				
 				text.setTypeface(null, Typeface.NORMAL);
 				
 				questionId++;
-				database.close();
+				
 				questionAnswered(id);
 			
 			}
-			
 
 		}
 	 }
-		
+	
+	class noLis implements OnClickListener {	
+			
+			@Override
+			public void onClick(View v) {
+			
+				int id = idQuest.getNoNav();
+				
+				
+				if(noTreeEnd){
+					
+					Cursor cur=database.rawQuery("select * from tree_id_range where range_id="+id, null);
+					cur.moveToFirst();
+					
+					int low = cur.getInt(cur.getColumnIndex("low"));
+					int high = cur.getInt(cur.getColumnIndex("high"));
+					
+					if (low == high){
+						Cursor cur1=database.rawQuery("select group_id from tree_main where tree_id="+low, null);
+						cur1.moveToFirst();
+						FragmentTransaction trans = getFragmentManager()
+								.beginTransaction();
+						new TreeFragment();
+						trans.replace(R.id.rootFrame, TreeFragment.newInstance(low));
+						trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+						trans.addToBackStack(null);
+
+						trans.commit();
+						
+						noTreeEnd = false;
+					}
+					else{
+						
+						Cursor cur1=database.rawQuery("select group_id from tree_main where tree_id="+low, null);
+						cur1.moveToFirst();
+						int groupId = cur.getInt(cur1.getColumnIndex("group_id"));
+						
+						FragmentTransaction trans = getFragmentManager()
+								.beginTransaction();
+						new BrowseSpeciesFragment();
+						trans.replace(R.id.rootFrame, BrowseSpeciesFragment.newInstance(groupId));
+						trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+						trans.addToBackStack(null);
+
+					trans.commit();
+					}
+					
+					
+					
+					MainActivity.actionBar.selectTab(MainActivity.actionBar.getTabAt(0));
+					
+					
+				}
+				
+				
+				else{
+					
+					View view = getView();
+					
+				    TextView text = (TextView) view.findViewById(questionId);
+					
+					text.setText(text.getText() + " " + idQuest.getNoText());
+					
+					text.setTextColor(Color.GRAY);
+					
+					text.setTypeface(null, Typeface.NORMAL);
+					
+					questionId++;
+					
+					questionAnswered(id);
+				
+				}
+
+			}
+	 	
+	}
+	
 	class textLis implements OnClickListener{
 
 		@Override
@@ -237,6 +279,7 @@ public class IdTreeFragment extends Fragment {
 			
 			questionId = id;
 			questionAnswered(questionNum[questionId]);
+			Log.v(" questionId = " + questionId, " getting data for id " + questionNum[questionId]);
 			getQuestionData(questionNum[questionId]);
 		}
 		
@@ -258,7 +301,7 @@ public class IdTreeFragment extends Fragment {
 		relative.removeView(view.findViewById(1001));
 			
 		Button yes = new Button(MainActivity.con);
-		yes.setOnClickListener(new btnLis());
+		yes.setOnClickListener(new yesLis());
 		//yes.setTextColor(Color.BLACK);
 		yes.setText(idQuest.getYesText());
 		yes.setPadding(4, 4, 4, 4);
@@ -276,7 +319,7 @@ public class IdTreeFragment extends Fragment {
 		
 		
 		Button no = new Button(MainActivity.con);
-		no.setOnClickListener(new btnLis());
+		no.setOnClickListener(new noLis());
 		//no.setTextColor(Color.BLACK);
 		no.setText(idQuest.getNoText());
 		no.setPadding(4, 4, 4, 4);
@@ -312,7 +355,6 @@ public class IdTreeFragment extends Fragment {
 	
 	protected Quest_Main getQuestionData(int ID)
 	{
-		database=SQLiteDatabase.openOrCreateDatabase("data/data/com.gsw.treesofgeorgia/databases/trees.db", null);
 		Cursor cur=database.rawQuery("select * from quest_navigation where quest_id="+ID, null);
 		
 
@@ -345,7 +387,6 @@ public class IdTreeFragment extends Fragment {
 			
 		}
 		else {
-			database.close();
 			return null;
 		}
 		
@@ -370,11 +411,7 @@ public class IdTreeFragment extends Fragment {
 			
 			idQuest.setqText((cur1.getString(cur1.getColumnIndexOrThrow("quest_text"))));
 		}
-		else{
-			return null;
-		}
-		database.close();
+		
 		return idQuest;
 	}
-	
 }

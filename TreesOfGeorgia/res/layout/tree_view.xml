@@ -17,25 +17,10 @@ android:layout_height="match_parent" >
         android:layout_height="wrap_content"
         android:orientation="vertical"
 		>
-		
-		<TextView
-            android:id="@+id/cnameTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            /> 
-            
-        <View
-    		android:layout_width="fill_parent"
-   			android:layout_height="1dip"
-    		android:background="#DDDDDD" />
-        
-		<HorizontalScrollView
+		 <HorizontalScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"          
+        android:layout_gravity="center_horizontal"
         android:layout_margin="10dp">
         
     		<LinearLayout
@@ -52,12 +37,8 @@ android:layout_height="match_parent" >
         android:layout_height="0dp"
         android:contentDescription="Tree Pictures"
         android:layout_weight="1.0"
-        android:layout_margin="5dp"/>
+        android:layout_marginTop="5dp"/>
 		           
-         <View
-    		android:layout_width="fill_parent"
-   			android:layout_height="1dip"
-    		android:background="#DDDDDD" />
             
          <TextView
              android:id="@+id/cnameHeader"
@@ -73,12 +54,7 @@ android:layout_height="match_parent" >
             android:layout_height="wrap_content"            
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_marginBottom="15dp"/>   
-                 
-         <View
-    		android:layout_width="fill_parent"
-   			android:layout_height="1dip"
-    		android:background="#DDDDDD" />
+            android:layout_marginBottom="15dp"/>        
              
          <TextView
             android:id="@+id/bnameHeader"
@@ -96,12 +72,7 @@ android:layout_height="match_parent" >
             android:layout_marginRight="15dp"
             android:layout_marginBottom="15dp"/>
          
-         <View
-    		android:layout_width="fill_parent"
-   			android:layout_height="1dip"
-    		android:background="#DDDDDD" />
-                  
-         <TextView
+             <TextView
             android:id="@+id/anameHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -116,11 +87,6 @@ android:layout_height="match_parent" >
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="15dp"/>
-        
-        <View
-    		android:layout_width="fill_parent"
-   			android:layout_height="1dip"
-    		android:background="#DDDDDD" />
         
         <TextView
             android:id="@+id/desHeader"
@@ -138,11 +104,6 @@ android:layout_height="match_parent" >
             android:layout_marginRight="15dp"
             android:layout_marginBottom="15dp"/>
         
-        <View
-    		android:layout_width="fill_parent"
-   			android:layout_height="1dip"
-    		android:background="#DDDDDD" />
-        
         <TextView
             android:id="@+id/woodHeader"
             android:layout_width="wrap_content"
@@ -159,12 +120,7 @@ android:layout_height="match_parent" >
             android:layout_marginRight="15dp"
             android:layout_marginBottom="15dp"/>
         
-        <View
-    		android:layout_width="fill_parent"
-   			android:layout_height="1dip"
-    		android:background="#DDDDDD" />
-        
-        <TextView
+          <TextView
             android:id="@+id/UseHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -180,12 +136,7 @@ android:layout_height="match_parent" >
             android:layout_marginRight="15dp"
             android:layout_marginBottom="15dp"/>
         
-        <View
-    		android:layout_width="fill_parent"
-   			android:layout_height="1dip"
-    		android:background="#DDDDDD" />
-        
-        <TextView
+          <TextView
             android:id="@+id/KeyHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -201,12 +152,7 @@ android:layout_height="match_parent" >
             android:layout_marginRight="15dp"
             android:layout_marginBottom="15dp"/>
         
-        <View
-    		android:layout_width="fill_parent"
-   			android:layout_height="1dip"
-    		android:background="#DDDDDD" />
-        
-    	<TextView
+    	   <TextView
             android:id="@+id/DistHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -221,7 +167,7 @@ android:layout_height="match_parent" >
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="15dp"/>
-          
+            
        
         
     </LinearLayout>

@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.text.Html;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
@@ -44,7 +43,6 @@ public class BrowseGenusFragment extends Fragment {
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
 			ScrollView view=new ScrollView(MainActivity.con);
 			LinearLayout linear=new LinearLayout(MainActivity.con);
 			linear.setOrientation(LinearLayout.VERTICAL);
@@ -58,13 +56,13 @@ public class BrowseGenusFragment extends Fragment {
 				
 				Button btn=new Button(MainActivity.con);
 				final Tree_Group temp=tree_group.get(i);
-				btn.setText(Html.fromHtml(temp.getcName()+"<br\\>     <small>"+temp.getbName() +"</small>"));
+				btn.setText(temp.getcName()+"/"+temp.getbName());
 				btn.setId(temp.getGroup_ID());
 				btn.setOnClickListener(new FirstLis());
 				linear.addView(btn);
 				}
 
-			database.close();
+
 			view.addView(linear);
 			return view;
 			}
@@ -76,14 +74,14 @@ public class BrowseGenusFragment extends Fragment {
 	
 	}
 	 
-	class FirstLis implements OnClickListener {	
+	 class FirstLis implements OnClickListener {	
 		
 		@Override
 		public void onClick(View v) {
 			FragmentTransaction trans = getFragmentManager()
 					.beginTransaction();
 			new BrowseSpeciesFragment();
-			trans.replace(R.id.rootFrame, BrowseSpeciesFragment.newInstance(v.getId()), "speciesFragment");
+			trans.replace(R.id.rootFrame, BrowseSpeciesFragment.newInstance(v.getId()));
 			trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 			trans.addToBackStack(null);
 
@@ -93,9 +91,8 @@ public class BrowseGenusFragment extends Fragment {
 
 	}
 	 
-	protected ArrayList<Tree_Group> getGroup()
+	 protected ArrayList<Tree_Group> getGroup()
 		{
-		 	database=SQLiteDatabase.openOrCreateDatabase("data/data/com.gsw.treesofgeorgia/databases/trees.db", null);
 			Cursor cur=database.rawQuery("select * from tree_group", null);
 			if (cur!=null) 
 			{
@@ -115,12 +112,10 @@ public class BrowseGenusFragment extends Fragment {
 					} while (cur.moveToNext());
 					
 				}
-				database.close();
 				return tree_groupTemp;
 			}
 			
 			else {
-				database.close();
 				return null;
 			}
 			
