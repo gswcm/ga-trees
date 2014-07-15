@@ -115,106 +115,193 @@ public class IdTreeFragment extends Fragment {
 			int id = 0;
 			switch (v.getId()){
 			
-			case 101 : id = idQuest.getYesNav(); break;
-			case 1001 : id = idQuest.getNoNav(); break;
-			}
-			
-			database=SQLiteDatabase.openOrCreateDatabase("data/data/com.gsw.treesofgeorgia/databases/trees.db", null);			
-			if(yesTreeEnd || noTreeEnd){
+			case 101 :  id = idQuest.getYesNav();
+						database=SQLiteDatabase.openOrCreateDatabase("data/data/com.gsw.treesofgeorgia/databases/trees.db", null);			
+						if(yesTreeEnd ){
 				
-				Cursor cur=database.rawQuery("select * from tree_id_range where range_id="+id, null);
-				cur.moveToFirst();
+							Cursor cur=database.rawQuery("select * from tree_id_range where range_id="+id, null);
+							cur.moveToFirst();
 								
-				int low = cur.getInt(cur.getColumnIndex("low"));
-				int high = cur.getInt(cur.getColumnIndex("high"));
+							int low = cur.getInt(cur.getColumnIndex("low"));
+							int high = cur.getInt(cur.getColumnIndex("high"));
 				
-				if (low == high){
+							if (low == high){
 					
-					Cursor cur1=database.rawQuery("select group_id from tree_main where tree_id="+low, null);
-					cur1.moveToFirst();
-					int groupId = cur1.getInt(cur1.getColumnIndex("group_id"));
-					database.close();
-					FragmentTransaction trans = getFragmentManager()
-							.beginTransaction();
-					FragmentManager manage = getFragmentManager();
-					if (manage.getBackStackEntryCount() >= 1){
-						for (int i = 0 ; i < manage.getBackStackEntryCount() ; i++){
+								Cursor cur1=database.rawQuery("select group_id from tree_main where tree_id="+low, null);
+								cur1.moveToFirst();
+								int groupId = cur1.getInt(cur1.getColumnIndex("group_id"));
+								database.close();
+								FragmentTransaction trans = getFragmentManager()
+										.beginTransaction();
+								FragmentManager manage = getFragmentManager();
+								if (manage.getBackStackEntryCount() >= 1){
+									for (int i = 0 ; i < manage.getBackStackEntryCount() ; i++){
 							
-							int backStackId = manage.getBackStackEntryAt(i).getId();
+										int backStackId = manage.getBackStackEntryAt(i).getId();
 
-						    manage.popBackStack(backStackId, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-						}
-					}
+										manage.popBackStack(backStackId, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+									}
+								}
 				
-					trans.replace(R.id.rootFrame, BrowseSpeciesFragment.newInstance(groupId), "speciesFragment");
-					trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-					trans.addToBackStack(null);
-					trans.commit();
+								trans.replace(R.id.rootFrame, BrowseSpeciesFragment.newInstance(groupId), "speciesFragment");
+								trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+								trans.addToBackStack(null);
+								trans.commit();
 					
-					FragmentTransaction trans1 = getFragmentManager()
-							.beginTransaction();
-					//new TreeFragment();
-					trans1.replace(R.id.rootFrame, TreeFragment.newInstance(low), "treeFragment");
-					trans1.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-					trans1.addToBackStack(null);
+								FragmentTransaction trans1 = getFragmentManager()
+										.beginTransaction();
+								//new TreeFragment();
+								trans1.replace(R.id.rootFrame, TreeFragment.newInstance(low), "treeFragment");
+								trans1.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+								trans1.addToBackStack(null);
 
-					trans1.commit();
+								trans1.commit();
 					
 					
-				}
-				else{
+							}
+							else{
 					
-					Cursor cur1=database.rawQuery("select group_id from tree_main where tree_id="+low, null);
-					cur1.moveToFirst();
-					int groupId = cur1.getInt(cur1.getColumnIndex("group_id"));
-					database.close();
-					FragmentTransaction trans = getFragmentManager()
+								Cursor cur1=database.rawQuery("select group_id from tree_main where tree_id="+low, null);
+								cur1.moveToFirst();
+								int groupId = cur1.getInt(cur1.getColumnIndex("group_id"));
+								database.close();
+								FragmentTransaction trans = getFragmentManager()
 							.beginTransaction();
-					FragmentManager manage = getFragmentManager();
-					if (manage.getBackStackEntryCount() >= 1){
-						for (int i = 0 ; i < manage.getBackStackEntryCount() ; i++){
+								FragmentManager manage = getFragmentManager();
+								if (manage.getBackStackEntryCount() >= 1){
+									for (int i = 0 ; i < manage.getBackStackEntryCount() ; i++){
 							
-							int backStackId = manage.getBackStackEntryAt(i).getId();
+										int backStackId = manage.getBackStackEntryAt(i).getId();
 
-						    manage.popBackStack(backStackId, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-						}
-					}
-					trans.replace(R.id.rootFrame, BrowseSpeciesFragment.newInstance(groupId), "speciesFragment");
-					trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-					trans.addToBackStack(null);
+										manage.popBackStack(backStackId, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+									}
+								}
+								trans.replace(R.id.rootFrame, BrowseSpeciesFragment.newInstance(groupId), "speciesFragment");
+								trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+								trans.addToBackStack(null);
 
-					trans.commit();
+								trans.commit();
 				
 				
 				
 								
-				}
+							}
 				
 				
-				MainActivity.actionBar.selectTab(MainActivity.actionBar.getTabAt(0));
-			}
+							MainActivity.actionBar.selectTab(MainActivity.actionBar.getTabAt(0));
+						}
 			
 
-			else{
+						else{
 				
-				View view = getView();
-				database.close();
-				TextView text = (TextView) view.findViewById(questionId);
-				switch (v.getId()){
+							View view = getView();
+							database.close();
+							TextView text = (TextView) view.findViewById(questionId);				
+							text.setText(Html.fromHtml(text.getText() + " <strong>" + idQuest.getYesText() + "</strong>"));
 				
-				case 101 : text.setText(Html.fromHtml(text.getText() + " <strong>" + idQuest.getYesText() + "</strong>")); break;
-				case 1001 : text.setText(Html.fromHtml(text.getText() + " <strong>" + idQuest.getNoText() + "</strong>")); break;
-				}
+							text.setTextColor(Color.GRAY);
 				
-				text.setTextColor(Color.GRAY);
+							text.setTypeface(null, Typeface.NORMAL);
 				
-				text.setTypeface(null, Typeface.NORMAL);
-				
-				questionId++;
-				database.close();
-				questionAnswered(id);
+							questionId++;
+							database.close();
+							questionAnswered(id);
 			
-			}
+						}break;
+						
+			case 1001 : id = idQuest.getNoNav();
+						database=SQLiteDatabase.openOrCreateDatabase("data/data/com.gsw.treesofgeorgia/databases/trees.db", null);			
+						if(noTreeEnd ){
+				
+							Cursor cur=database.rawQuery("select * from tree_id_range where range_id="+id, null);
+							cur.moveToFirst();
+					
+							int low = cur.getInt(cur.getColumnIndex("low"));
+							int high = cur.getInt(cur.getColumnIndex("high"));
+	
+							if (low == high){
+		
+								Cursor cur1=database.rawQuery("select group_id from tree_main where tree_id="+low, null);
+								cur1.moveToFirst();
+								int groupId = cur1.getInt(cur1.getColumnIndex("group_id"));
+								database.close();
+								FragmentTransaction trans = getFragmentManager()
+										.beginTransaction();
+								FragmentManager manage = getFragmentManager();
+								if (manage.getBackStackEntryCount() >= 1){
+									for (int i = 0 ; i < manage.getBackStackEntryCount() ; i++){
+				
+										int backStackId = manage.getBackStackEntryAt(i).getId();
+
+										manage.popBackStack(backStackId, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+									}
+								}
+	
+								trans.replace(R.id.rootFrame, BrowseSpeciesFragment.newInstance(groupId), "speciesFragment");
+								trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+								trans.addToBackStack(null);
+								trans.commit();
+		
+								FragmentTransaction trans1 = getFragmentManager()
+										.beginTransaction();
+								//new TreeFragment();
+								trans1.replace(R.id.rootFrame, TreeFragment.newInstance(low), "treeFragment");
+								trans1.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+								trans1.addToBackStack(null);
+
+								trans1.commit();
+		
+		
+							}
+							else{
+		
+								Cursor cur1=database.rawQuery("select group_id from tree_main where tree_id="+low, null);
+								cur1.moveToFirst();
+								int groupId = cur1.getInt(cur1.getColumnIndex("group_id"));
+								database.close();
+								FragmentTransaction trans = getFragmentManager()
+										.beginTransaction();
+								FragmentManager manage = getFragmentManager();
+								if (manage.getBackStackEntryCount() >= 1){
+									for (int i = 0 ; i < manage.getBackStackEntryCount() ; i++){
+				
+										int backStackId = manage.getBackStackEntryAt(i).getId();
+
+										manage.popBackStack(backStackId, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+									}
+								}
+								trans.replace(R.id.rootFrame, BrowseSpeciesFragment.newInstance(groupId), "speciesFragment");
+								trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+								trans.addToBackStack(null);
+
+								trans.commit();
+					
+							}
+	
+	
+							MainActivity.actionBar.selectTab(MainActivity.actionBar.getTabAt(0));
+						}
+
+
+						else{
+	
+							View view = getView();
+							database.close();
+							TextView text = (TextView) view.findViewById(questionId);				
+							text.setText(Html.fromHtml(text.getText() + " <strong>" + idQuest.getNoText() + "</strong>"));
+	
+							text.setTextColor(Color.GRAY);
+	
+							text.setTypeface(null, Typeface.NORMAL);
+	
+							questionId++;
+							database.close();
+							questionAnswered(id);
+
+						}break;
+				}
+			
+			
 			
 
 		}
