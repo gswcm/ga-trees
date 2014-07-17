@@ -82,7 +82,6 @@ public class BrowseGenusFragment extends Fragment {
 		public void onClick(View v) {
 			FragmentTransaction trans = getFragmentManager()
 					.beginTransaction();
-			new BrowseSpeciesFragment();
 			trans.replace(R.id.rootFrame, BrowseSpeciesFragment.newInstance(v.getId()), "speciesFragment");
 			trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 			trans.addToBackStack(null);

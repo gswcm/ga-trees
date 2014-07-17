@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -94,9 +95,11 @@ public class TreeFragment extends Fragment implements OnClickListener
         TextView desView=(TextView)view.findViewById(R.id.desView);
         desView.setText(desc);
         
-        final ImageView diplayImage = (ImageView) view.findViewById(R.id.displayImage);
+        final ImageButton displayImage = (ImageButton) view.findViewById(R.id.displayImage);
         final LinearLayout myGallery = (LinearLayout) view.findViewById(R.id.mygallery);
 
+        int margin = (int) ((4 * MainActivity.con.getResources().getDisplayMetrics().density)+.5);
+        
         try {
             String galleryDirectoryName = "organized.reduced/"+commonName.toLowerCase();
             String[] listImages = getActivity().getAssets().list(galleryDirectoryName);
@@ -105,13 +108,17 @@ public class TreeFragment extends Fragment implements OnClickListener
                 final Bitmap bitmap = BitmapFactory.decodeStream(is);
 
                 ImageView imageView = new ImageView(MainActivity.con);
-                imageView.setLayoutParams(new ViewGroup.LayoutParams(getDp(500), getDp(500)));
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 imageView.setImageBitmap(bitmap);
+                
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(getDp(500), getDp(500));
+                lp.setMargins(margin, margin, margin, margin);
+                imageView.setLayoutParams(lp);
+                
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        diplayImage.setImageBitmap(bitmap);
+                        displayImage.setImageBitmap(bitmap);
                     }
                 });
 

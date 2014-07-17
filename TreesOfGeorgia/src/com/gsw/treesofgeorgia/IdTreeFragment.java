@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class IdTreeFragment extends Fragment {
@@ -150,7 +151,6 @@ public class IdTreeFragment extends Fragment {
 					
 								FragmentTransaction trans1 = getFragmentManager()
 										.beginTransaction();
-								//new TreeFragment();
 								trans1.replace(R.id.rootFrame, TreeFragment.newInstance(low), "treeFragment");
 								trans1.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 								trans1.addToBackStack(null);
@@ -337,14 +337,15 @@ public class IdTreeFragment extends Fragment {
 		
 		getQuestionData(answer);
 		
-		View view =  getView();		
+		final View view =  getView();		
 		
+		final ScrollView scroll = (ScrollView) view.findViewById(R.id.id_scroll);
 		RelativeLayout relative= (RelativeLayout) view.findViewById(R.id.id_relative);
 		
 		relative.removeView(view.findViewById(101));
 		relative.removeView(view.findViewById(1001));
 			
-		Button yes = new Button(MainActivity.con);
+		final Button yes = new Button(MainActivity.con);
 		yes.setOnClickListener(new btnLis());
 		//yes.setTextColor(Color.BLACK);
 		yes.setText(idQuest.getYesText());
@@ -392,7 +393,16 @@ public class IdTreeFragment extends Fragment {
 		relative.addView(yes, yesLp);
 
 		relative.addView(no, noLp);
-				
+		
+		
+		scroll.post(new Runnable() {
+	        @Override
+	        public void run () {
+	            scroll.smoothScrollTo(0, scroll.getBottom());
+	        }
+	    });
+		
+		
 		return null;
 		
 	}

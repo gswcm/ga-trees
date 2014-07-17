@@ -3,8 +3,8 @@ package com.gsw.treesofgeorgia;
 import java.util.Locale;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -40,6 +40,8 @@ public class MainActivity extends ActionBarActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 		
 		con = this.getApplicationContext();
 		
@@ -99,6 +101,15 @@ public class MainActivity extends ActionBarActivity implements
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
+			
+			android.app.FragmentTransaction trans = getFragmentManager()
+					.beginTransaction();
+			trans.replace(R.id.rootFrame, new PreferencesFragment());
+			trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+			trans.addToBackStack(null);
+
+			trans.commit();
+			
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
