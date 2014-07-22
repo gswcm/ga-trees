@@ -45,16 +45,17 @@ android:id="@+id/treeContainer" >
             android:layout_height="wrap_content"
             android:orientation="horizontal"/>
     		
-		</HorizontalScrollView>     
+		</HorizontalScrollView>   
+		  
 		
-		<ImageButton
-        android:id="@+id/displayImage"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="Tree Pictures"
-        android:layout_weight="1.0"
-        android:layout_margin="5dp"/>
+        	<ImageView
+        		android:id="@+id/displayImage"
+        		android:layout_width="fill_parent"
+        		android:layout_height="0dp"
+        		android:background="@android:color/transparent"
+        		android:contentDescription="Tree Pictures"
+        		android:layout_margin="5dp"/>
+		
 		           
          <View
     		android:layout_width="fill_parent"

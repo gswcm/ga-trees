@@ -20,7 +20,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -95,7 +94,7 @@ public class TreeFragment extends Fragment implements OnClickListener
         TextView desView=(TextView)view.findViewById(R.id.desView);
         desView.setText(desc);
         
-        final ImageButton displayImage = (ImageButton) view.findViewById(R.id.displayImage);
+        final ImageView displayImage = (ImageView) view.findViewById(R.id.displayImage);
         final LinearLayout myGallery = (LinearLayout) view.findViewById(R.id.mygallery);
 
         int margin = (int) ((4 * MainActivity.con.getResources().getDisplayMetrics().density)+.5);

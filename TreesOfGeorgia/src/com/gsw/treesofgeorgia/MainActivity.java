@@ -3,6 +3,7 @@ package com.gsw.treesofgeorgia;
 import java.util.Locale;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,7 @@ public class MainActivity extends ActionBarActivity implements
 	static int GID;
 	public static TabHost tabHost;
 	public static ActionBar actionBar;
+	public static boolean cNameFirst;
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
 	 * fragments for each of the sections. We use a {@link FragmentPagerAdapter}
@@ -42,6 +44,7 @@ public class MainActivity extends ActionBarActivity implements
 		setContentView(R.layout.activity_main);
 		
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+		
 		
 		con = this.getApplicationContext();
 		
@@ -102,13 +105,11 @@ public class MainActivity extends ActionBarActivity implements
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
 			
-			android.app.FragmentTransaction trans = getFragmentManager()
-					.beginTransaction();
-			trans.replace(R.id.rootFrame, new PreferencesFragment());
-			trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-			trans.addToBackStack(null);
-
-			trans.commit();
+			Intent intent=new Intent();
+			intent.setClass(MainActivity.this, FragmentPreferences.class);
+			Bundle b=new Bundle();
+			intent.putExtras(b);
+			startActivity(intent);
 			
 			return true;
 		}

@@ -7,9 +7,11 @@ import com.gsw.DB.Tree_Main;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 public class BrowseSpeciesFragment extends Fragment {
-
+	SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(MainActivity.con);
 	static int id;
 	private SQLiteDatabase database=null;
 	ArrayList<Tree_Main> trees;
@@ -42,18 +44,27 @@ public class BrowseSpeciesFragment extends Fragment {
 	        trees=getTrees(id);
 	        LinearLayout linear=new LinearLayout(MainActivity.con);
 			linear.setOrientation(LinearLayout.VERTICAL);
-
-			for (int i = 0; i < trees.size(); i++)
-			{
-				Button btn=new Button(MainActivity.con);
-				Tree_Main temp=trees.get(i);
-				btn.setText(Html.fromHtml(temp.getcName()+"<br\\>     <small>"+temp.getbName()+"</small>"));
-				btn.setId(temp.getTree_id());
-				btn.setOnClickListener(new SecondLis());
-					
-					
-				linear.addView(btn);
-				
+			
+			if( (sharedPref.getBoolean("pref_common_first", true)) && (sharedPref != null)){
+			
+				for (int i = 0; i < trees.size(); i++){
+					Button btn=new Button(MainActivity.con);
+					Tree_Main temp=trees.get(i);
+					btn.setText(Html.fromHtml(temp.getcName()+"<br\\>     <small>"+temp.getbName()+"</small>"));
+					btn.setId(temp.getTree_id());
+					btn.setOnClickListener(new SecondLis());
+					linear.addView(btn);
+				}
+			}
+			else{
+				for (int i = 0; i < trees.size(); i++){
+					Button btn=new Button(MainActivity.con);
+					Tree_Main temp=trees.get(i);
+					btn.setText(Html.fromHtml(temp.getbName()+"<br\\>     <small>"+temp.getcName()+"</small>"));
+					btn.setId(temp.getTree_id());
+					btn.setOnClickListener(new SecondLis());
+					linear.addView(btn);
+				}
 			}
 			database.close();
 			view.addView(linear);

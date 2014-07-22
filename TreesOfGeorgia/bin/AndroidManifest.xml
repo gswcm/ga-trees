@@ -23,6 +23,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.gsw.treesofgeorgia.FragmentPreferences"
+            android:label="preferences" 
+            android:configChanges="orientation|keyboardHidden">
+        </activity>
      </application>
 
 </manifest>

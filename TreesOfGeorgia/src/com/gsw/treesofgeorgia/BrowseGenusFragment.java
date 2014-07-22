@@ -6,10 +6,12 @@ import com.gsw.DB.DatabaseAdapter;
 import com.gsw.DB.Tree_Group;
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
@@ -22,6 +24,8 @@ import android.widget.ScrollView;
 
 public class BrowseGenusFragment extends Fragment {
 	
+	
+	SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(MainActivity.con);
 	private SQLiteDatabase database=null;
 	ArrayList<Tree_Group> tree_group;
 	
@@ -53,7 +57,8 @@ public class BrowseGenusFragment extends Fragment {
 			adapter.open();
 			database=SQLiteDatabase.openOrCreateDatabase("data/data/com.gsw.treesofgeorgia/databases/trees.db", null);
 			tree_group=getGroup();
-	
+			
+			if(sharedPref.getBoolean("pref_common_first", true) && (sharedPref != null)){
 			for (int i = 0; i < tree_group.size(); i++){
 				
 				Button btn=new Button(MainActivity.con);
@@ -63,7 +68,18 @@ public class BrowseGenusFragment extends Fragment {
 				btn.setOnClickListener(new FirstLis());
 				linear.addView(btn);
 				}
-
+			}
+			else{
+				for (int i = 0; i < tree_group.size(); i++){
+					
+					Button btn=new Button(MainActivity.con);
+					final Tree_Group temp=tree_group.get(i);
+					btn.setText(Html.fromHtml(temp.getbName()+"<br\\>     <small>"+temp.getcName() +"</small>"));
+					btn.setId(temp.getGroup_ID());
+					btn.setOnClickListener(new FirstLis());
+					linear.addView(btn);
+					}
+			}
 			database.close();
 			view.addView(linear);
 			return view;
@@ -98,6 +114,7 @@ public class BrowseGenusFragment extends Fragment {
 			Cursor cur=database.rawQuery("select * from tree_group", null);
 			if (cur!=null) 
 			{
+				
 				ArrayList<Tree_Group> tree_groupTemp=new ArrayList<Tree_Group>();
 				if (cur.moveToFirst()) {
 					do {
@@ -108,6 +125,9 @@ public class BrowseGenusFragment extends Fragment {
 						Tree_Group group=new Tree_Group();
 						group.setGroup_ID(g_ID);
 						group.setType_ID(t_ID);
+						
+						
+						
 						group.setcName(cName);
 						group.setbName(bName);
 						tree_groupTemp.add(group);

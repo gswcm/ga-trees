@@ -5,7 +5,6 @@
         android:key="pref_common_first"
         android:title="Common Names First:"
         android:summary="Common Names for genus and species are listed first"
-        android:defaultValue="true" 
-        android:background="@android:color/black"/>
+        android:defaultValue="true" />
 
 </PreferenceScreen>
