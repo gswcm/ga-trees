@@ -279,7 +279,7 @@ int id listContainer 0x7f06003d
 int id listMode 0x7f060001
 int id list_item 0x7f060029
 int id middle 0x7f060012
-int id mygallery 0x7f060044
+int id myGallery 0x7f060044
 int id never 0x7f060009
 int id none 0x7f060010
 int id normal 0x7f060000

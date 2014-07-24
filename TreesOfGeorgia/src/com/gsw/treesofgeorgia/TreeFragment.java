@@ -4,7 +4,6 @@ package com.gsw.treesofgeorgia;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.gsw.treesofgeorgia.R;
 import com.gsw.DB.Tree_Main;
 
 import android.content.Intent;
@@ -48,7 +47,7 @@ public class TreeFragment extends Fragment implements OnClickListener
 			Bundle savedInstanceState) {
 		
 		
-		View view = inflater.inflate(R.layout.tree_view, container, false);
+		final View view = inflater.inflate(R.layout.tree_view, container, false);
 		
 		database=SQLiteDatabase.openOrCreateDatabase("data/data/com.gsw.treesofgeorgia/databases/trees.db", null);
 		
@@ -94,8 +93,8 @@ public class TreeFragment extends Fragment implements OnClickListener
         TextView desView=(TextView)view.findViewById(R.id.desView);
         desView.setText(desc);
         
-        final ImageView displayImage = (ImageView) view.findViewById(R.id.displayImage);
-        final LinearLayout myGallery = (LinearLayout) view.findViewById(R.id.mygallery);
+        
+        final LinearLayout myGallery = (LinearLayout) view.findViewById(R.id.myGallery);
 
         int margin = (int) ((4 * MainActivity.con.getResources().getDisplayMetrics().density)+.5);
         
@@ -116,7 +115,8 @@ public class TreeFragment extends Fragment implements OnClickListener
                 
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
+                    public void onClick(View v) {
+                    	ImageView displayImage = (ImageView) view.findViewById(R.id.displayImage);
                         displayImage.setImageBitmap(bitmap);
                     }
                 });
