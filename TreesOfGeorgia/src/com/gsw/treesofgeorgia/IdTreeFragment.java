@@ -1,5 +1,8 @@
 package com.gsw.treesofgeorgia;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import com.gsw.DB.DatabaseAdapter;
 import com.gsw.DB.Quest_Main;
 
@@ -7,8 +10,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -19,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -32,6 +39,9 @@ public class IdTreeFragment extends Fragment {
 	static int questionId = 1;
 	static int answerWidth;
 	static int[] questionNum = new int[25];
+	Bitmap yesPic;
+	Bitmap noPic;
+	String picPath = "key.images/";
 	
 	public static Fragment newInstance(){
 		Fragment idTreeFrag = new IdTreeFragment();
@@ -331,7 +341,9 @@ public class IdTreeFragment extends Fragment {
 	
 	protected View questionAnswered(int answer){
 		
+			
 		Log.v("questionId =" + questionId,""+answer);
+				
 		
 		questionNum[questionId] = answer;
 		
@@ -345,64 +357,120 @@ public class IdTreeFragment extends Fragment {
 		relative.removeView(view.findViewById(101));
 		relative.removeView(view.findViewById(1001));
 			
-		final Button yes = new Button(MainActivity.con);
-		yes.setOnClickListener(new btnLis());
-		//yes.setTextColor(Color.BLACK);
-		yes.setText(idQuest.getYesText());
-		yes.setPadding(4, 4, 4, 4);
-		yes.setId(101);
-		
-		
-		TextView question = new TextView(MainActivity.con);
-		question.setOnClickListener(new textLis());
-		question.setBackgroundColor(Color.TRANSPARENT);
-		question.setText(idQuest.getqText());
-		question.setTextColor(Color.BLACK);
-		question.setPadding(50, 25, 50, 25);
-		question.setTypeface(null, Typeface.BOLD);
-		question.setId(questionId);
-		
-		
-		Button no = new Button(MainActivity.con);
-		no.setOnClickListener(new btnLis());
-		//no.setTextColor(Color.BLACK);
-		no.setText(idQuest.getNoText());
-		no.setPadding(4, 4, 4, 4);
-		no.setId(1001);
-		
-		
-		RelativeLayout.LayoutParams yesLp = new RelativeLayout.LayoutParams(
-				answerWidth, RelativeLayout.LayoutParams.WRAP_CONTENT);
-		yesLp.addRule(RelativeLayout.BELOW, question.getId());
-		yesLp.addRule(RelativeLayout.ALIGN_LEFT, question.getId());
-		
-		
-		RelativeLayout.LayoutParams startLp = new RelativeLayout.LayoutParams(
-				RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-		startLp.addRule(RelativeLayout.BELOW, (questionId - 1));
-		
-		
-		RelativeLayout.LayoutParams noLp = new RelativeLayout.LayoutParams(
-				answerWidth, RelativeLayout.LayoutParams.WRAP_CONTENT);
-		noLp.addRule(RelativeLayout.ALIGN_TOP, yes.getId());
-		noLp.addRule(RelativeLayout.ALIGN_BOTTOM, yes.getId());
-		noLp.addRule(RelativeLayout.RIGHT_OF, yes.getId());
-				
-		relative.addView(question, startLp);
-		
-		relative.addView(yes, yesLp);
+		if(answer == 10000){
+			Button yes=new Button(MainActivity.con);
+			yes.setOnClickListener(new btnLis());
+			yes.setText(idQuest.getYesText());
+			yes.setPadding(4, 4, 4, 4);
+			yes.setId(101);
+			
+			TextView start = new TextView(MainActivity.con);
+			start.setOnClickListener(new textLis());
+			start.setText(idQuest.getqText());
+			start.setTextColor(Color.BLACK);
+			start.setPadding(50, 25, 50, 25);
+			start.setId(questionId);
+			start.setTypeface(null, Typeface.BOLD);
+			
+			Button no=new Button(MainActivity.con);
+			no.setOnClickListener(new btnLis());
+			no.setText(idQuest.getNoText());
+			no.setPadding(4, 4, 4, 4);
+			no.setId(1001);
+			
+			RelativeLayout.LayoutParams yesLp = new RelativeLayout.LayoutParams(
+					answerWidth, RelativeLayout.LayoutParams.WRAP_CONTENT);
+			yesLp.addRule(RelativeLayout.BELOW, start.getId());
+			yesLp.addRule(RelativeLayout.ALIGN_LEFT, start.getId());
+			
+			
+			RelativeLayout.LayoutParams startLp = new RelativeLayout.LayoutParams(
+					RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+					
+			RelativeLayout.LayoutParams noLp = new RelativeLayout.LayoutParams(
+					answerWidth, RelativeLayout.LayoutParams.WRAP_CONTENT);
+			noLp.addRule(RelativeLayout.ALIGN_TOP, yes.getId());
+			noLp.addRule(RelativeLayout.ALIGN_BOTTOM, yes.getId());
+			noLp.addRule(RelativeLayout.RIGHT_OF, yes.getId());
+					
 
-		relative.addView(no, noLp);
+			relative.addView(start, startLp);
+			relative.addView(yes, yesLp);
+			relative.addView(no, noLp);
+		}
+		
+		else{
+			try {
+				InputStream yesS = getActivity().getAssets().open(picPath + idQuest.getYesPic());
+				yesPic = BitmapFactory.decodeStream(yesS);
+				InputStream noS = getActivity().getAssets().open(picPath + idQuest.getNoPic());
+				noPic = BitmapFactory.decodeStream(noS);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+         
+		
+			ImageView yes = new ImageView(MainActivity.con);
+			yes.setOnClickListener(new btnLis());
+			yes.setImageBitmap(yesPic);
+			yes.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+			yes.setPadding(4, 4, 4, 4);
+			yes.setBackgroundColor(Color.TRANSPARENT);
+			yes.setId(101);
 		
 		
-		scroll.post(new Runnable() {
-	        @Override
-	        public void run () {
-	            scroll.smoothScrollTo(0, scroll.getBottom());
-	        }
-	    });
+			TextView question = new TextView(MainActivity.con);
+			question.setOnClickListener(new textLis());
+			question.setBackgroundColor(Color.TRANSPARENT);
+			question.setText(idQuest.getqText());
+			question.setTextColor(Color.BLACK);
+			question.setPadding(50, 25, 50, 25);
+			question.setTypeface(null, Typeface.BOLD);
+			question.setId(questionId);
+		
+			         
+			ImageView no = new ImageView(MainActivity.con);
+			no.setOnClickListener(new btnLis());
+			no.setImageBitmap(noPic);
+			no.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+			no.setPadding(4, 4, 4, 4);
+			no.setBackgroundColor(Color.TRANSPARENT);
+			no.setId(1001);
 		
 		
+			RelativeLayout.LayoutParams yesLp = new RelativeLayout.LayoutParams(
+					getDp(800), getDp(800));
+			yesLp.addRule(RelativeLayout.BELOW, question.getId());
+			yesLp.addRule(RelativeLayout.ALIGN_LEFT, question.getId());
+		
+		
+			RelativeLayout.LayoutParams startLp = new RelativeLayout.LayoutParams(
+					RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+			startLp.addRule(RelativeLayout.BELOW, (questionId - 1));
+		
+		
+			RelativeLayout.LayoutParams noLp = new RelativeLayout.LayoutParams(
+					getDp(800), getDp(800));
+			noLp.addRule(RelativeLayout.ALIGN_TOP, yes.getId());
+			noLp.addRule(RelativeLayout.ALIGN_BOTTOM, yes.getId());
+			noLp.addRule(RelativeLayout.RIGHT_OF, yes.getId());
+				
+			relative.addView(question, startLp);
+			
+			relative.addView(yes, yesLp);
+
+			relative.addView(no, noLp);
+		
+		
+			scroll.post(new Runnable() {
+				@Override
+				public void run () {
+					scroll.smoothScrollTo(0, scroll.getBottom());
+				}
+			});
+		
+		}
 		return null;
 		
 	}
@@ -451,18 +519,25 @@ public class IdTreeFragment extends Fragment {
 		if(cur1 != null){
 			cur1.moveToFirst();
 			
-			if (!(cur1.isNull(cur1.getColumnIndexOrThrow("yes_text")))){
+			if (!((cur1.isNull(cur1.getColumnIndexOrThrow("yes_text"))) || (cur1.getString(cur1.getColumnIndexOrThrow("yes_text")).isEmpty()))){
 				idQuest.setYesText((cur1.getString(cur1.getColumnIndexOrThrow("yes_text"))));
 			}
 			else{
 				idQuest.setYesText("Yes");
 			}
 			
-			if (!(cur1.isNull(cur1.getColumnIndexOrThrow("no_text")))){
+			if (!(cur1.isNull(cur1.getColumnIndexOrThrow("no_text")) || (cur1.getString(cur1.getColumnIndexOrThrow("no_text")).isEmpty()))){
 				idQuest.setNoText((cur1.getString(cur1.getColumnIndexOrThrow("no_text"))));
 			}
 			else{
 				idQuest.setNoText("No");
+			}
+			
+			if (!(cur1.isNull(cur1.getColumnIndexOrThrow("pic_y")))){
+				idQuest.setYesPic((cur1.getString(cur1.getColumnIndexOrThrow("pic_y"))));
+			}
+			if (!(cur1.isNull(cur1.getColumnIndexOrThrow("pic_n")))){
+				idQuest.setNoPic((cur1.getString(cur1.getColumnIndexOrThrow("pic_n"))));
 			}
 			
 			idQuest.setqText((cur1.getString(cur1.getColumnIndexOrThrow("quest_text"))));
@@ -474,4 +549,9 @@ public class IdTreeFragment extends Fragment {
 		return idQuest;
 	}
 	
+	public int getDp(int i){
+		
+		return ((int) ((i / Resources.getSystem().getDisplayMetrics().density)+0.5));
+		
+		}
 }

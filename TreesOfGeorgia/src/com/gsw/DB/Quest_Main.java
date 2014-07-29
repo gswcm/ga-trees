@@ -8,6 +8,8 @@ public class Quest_Main
 	private int noNav;
 	private String yesText;
 	private String noText;
+	private String yesPic;
+	private String noPic;
 	
 	public String getqText() {
 		return qText;
@@ -45,5 +47,17 @@ public class Quest_Main
 	}
 	public String getNoText(){
 		return noText;
+	}
+	public void setNoPic(String text){
+		this.noPic = text;
+	}
+	public String getNoPic(){
+		return noPic;
+	}
+	public void setYesPic(String text){
+		this.yesPic = text;
+	}
+	public String getYesPic(){
+		return yesPic;
 	}
 }
