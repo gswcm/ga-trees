@@ -28,6 +28,7 @@ public class BrowseGenusFragment extends Fragment {
 	SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(MainActivity.con);
 	private SQLiteDatabase database=null;
 	ArrayList<Tree_Group> tree_group;
+	DatabaseAdapter adapter;
 	
 	public interface OnGenusSelectedListener {
         public void onGenusSelected(int GID);
@@ -53,9 +54,9 @@ public class BrowseGenusFragment extends Fragment {
 			LinearLayout linear=new LinearLayout(MainActivity.con);
 			linear.setOrientation(LinearLayout.VERTICAL);
 			
-			DatabaseAdapter adapter=new DatabaseAdapter(MainActivity.con);
+			adapter=new DatabaseAdapter(MainActivity.con);
 			adapter.open();
-			database=SQLiteDatabase.openOrCreateDatabase("data/data/com.gsw.treesofgeorgia/databases/trees.db", null);
+			//database=SQLiteDatabase.openOrCreateDatabase("data/data/com.gsw.treesofgeorgia/databases/trees.db", null);
 			tree_group=getGroup();
 			
 			if(sharedPref.getBoolean("pref_common_first", true) && (sharedPref != null)){
@@ -81,6 +82,7 @@ public class BrowseGenusFragment extends Fragment {
 					}
 			}
 			database.close();
+			adapter.close();
 			view.addView(linear);
 			return view;
 			}
@@ -110,6 +112,7 @@ public class BrowseGenusFragment extends Fragment {
 	 
 	protected ArrayList<Tree_Group> getGroup()
 		{
+			adapter.open();
 		 	database=SQLiteDatabase.openOrCreateDatabase("data/data/com.gsw.treesofgeorgia/databases/trees.db", null);
 			Cursor cur=database.rawQuery("select * from tree_group", null);
 			if (cur!=null) 
@@ -134,12 +137,15 @@ public class BrowseGenusFragment extends Fragment {
 					} while (cur.moveToNext());
 					
 				}
+				cur.close();
 				database.close();
+				adapter.close();
 				return tree_groupTemp;
 			}
 			
 			else {
 				database.close();
+				adapter.close();
 				return null;
 			}
 			

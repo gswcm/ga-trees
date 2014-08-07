@@ -2,6 +2,7 @@ package com.gsw.treesofgeorgia;
 
 import java.util.ArrayList;
 
+import com.gsw.DB.DatabaseAdapter;
 import com.gsw.DB.Tree_Main;
 
 import android.support.v4.app.Fragment;
@@ -25,6 +26,7 @@ public class BrowseSpeciesFragment extends Fragment {
 	static int id;
 	private SQLiteDatabase database=null;
 	ArrayList<Tree_Main> trees;
+	DatabaseAdapter adapter;
 
 	public static Fragment newInstance(int gid){
 		Fragment s = new BrowseSpeciesFragment();
@@ -40,6 +42,8 @@ public class BrowseSpeciesFragment extends Fragment {
 	 public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			ScrollView view=new ScrollView(MainActivity.con);
+			adapter=new DatabaseAdapter(MainActivity.con);
+			adapter.open();
 	        database=SQLiteDatabase.openOrCreateDatabase("data/data/com.gsw.treesofgeorgia/databases/trees.db", null);
 	        trees=getTrees(id);
 	        LinearLayout linear=new LinearLayout(MainActivity.con);
@@ -67,6 +71,7 @@ public class BrowseSpeciesFragment extends Fragment {
 				}
 			}
 			database.close();
+			adapter.close();
 			view.addView(linear);
 			return view;
 		}
@@ -87,6 +92,7 @@ public class BrowseSpeciesFragment extends Fragment {
 	 
 	 private ArrayList<Tree_Main> getTrees(int ID)
 		{
+		 	adapter.open();
 			database=SQLiteDatabase.openOrCreateDatabase("data/data/com.gsw.treesofgeorgia/databases/trees.db", null);
 			Cursor cur=database.rawQuery("select cName,bName,tree_id from tree_main where group_id="+ID,null);
 			if (cur!=null) 
@@ -106,12 +112,15 @@ public class BrowseSpeciesFragment extends Fragment {
 					} while (cur.moveToNext());
 					
 				}
+				cur.close();
 				database.close();
+				adapter.close();
 				return tree_Temp;
 			}
 			
 			else {
 				database.close();
+				adapter.close();
 				return null;
 			}
 			
