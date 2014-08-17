@@ -5,7 +5,7 @@ import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 public class dbHelper extends SQLiteAssetHelper {
 
-	private static final String DATABASE_NAME = "myDB.db";
+	private static final String DATABASE_NAME = "ga-trees.db";
 	private static final int DATABASE_VERSION = 1;
 	private final SQLiteDatabase db;
 
@@ -17,5 +17,4 @@ public class dbHelper extends SQLiteAssetHelper {
 	public SQLiteDatabase getDb() {
 		return db;
 	}
-
 }

@@ -9,7 +9,8 @@
         android:layout_height="wrap_content"
         android:text="Medium Text"
         android:id="@+id/treeInfoText"
-        android:paddingLeft="60dp"
+        android:paddingLeft="50dp"
         tools:ignore="RtlSymmetry"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:paddingRight="20dp"/>
 </LinearLayout>

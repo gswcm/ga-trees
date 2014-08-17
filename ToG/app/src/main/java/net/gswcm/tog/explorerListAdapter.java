@@ -33,7 +33,7 @@ public class explorerListAdapter extends CursorTreeAdapter {
 		int groupId = cursor.getInt(cursor.getColumnIndex(BaseColumns._ID));
 		SQLiteDatabase db = ((SQLiteCursor)cursor).getDatabase();
 
-		Cursor treeCursor = db.rawQuery("select * from tree_main where tree_main.group_id=" + groupId, null);
+		Cursor treeCursor = db.rawQuery("select * from tree_name where tree_name.tree_group_id=" + groupId, null);
 		return treeCursor;
 	}
 
@@ -47,8 +47,8 @@ public class explorerListAdapter extends CursorTreeAdapter {
 	protected void bindGroupView(View view, Context context, Cursor cursor, boolean b) {
 		TextView cName = (TextView) view.findViewById(R.id.familyCommonName);
 		TextView bName = (TextView) view.findViewById(R.id.familyBotanicalName);
-		cName.setText(cursor.getString(cursor.getColumnIndex("cName")));
-		bName.setText(cursor.getString(cursor.getColumnIndex("bName")));
+		cName.setText(cursor.getString(cursor.getColumnIndex("group_common")));
+		bName.setText(cursor.getString(cursor.getColumnIndex("group_botanical")));
 		/*
 		if (b) {
 			Iconify.setIcon(IndicatorText, IconValue.icon_caret_up);
@@ -67,7 +67,7 @@ public class explorerListAdapter extends CursorTreeAdapter {
 	protected void bindChildView(View view, Context context, Cursor cursor, boolean b) {
 		TextView cName = (TextView) view.findViewById(R.id.treeCommonName);
 		TextView bName = (TextView) view.findViewById(R.id.treeBotanicalName);
-		cName.setText(capitalize(cursor.getString(cursor.getColumnIndex("cName"))));
-		bName.setText(cursor.getString(cursor.getColumnIndex("bName")));
+		cName.setText(capitalize(cursor.getString(cursor.getColumnIndex("tree_common"))));
+		bName.setText(cursor.getString(cursor.getColumnIndex("tree_botanical")));
 	}
 }

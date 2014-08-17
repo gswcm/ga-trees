@@ -47,15 +47,15 @@ public class TreeInfoFragment extends Fragment{
 		//-- Query to DB to extract tree information
 		String selectQuery =
 			"select " +
-			"tree_main.cName as cName, " +
-			"tree_main.bName as bName, " +
-			"tree_main.aName as aName, " +
-			"tree_main.KEY as key, " +
-			"tree_main.wood as wood, " +
-			"tree_main.uses as uses, " +
-			"tree_main.dist as dist, " +
-			"tree_desc.FULL as desc " +
-			"from tree_main inner join tree_desc on tree_main.desc_id = tree_desc._id where tree_main._id = " + id;
+			"tree_name.tree_common as cName, " +
+			"tree_name.tree_botanical as bName, " +
+			"tree_name.tree_alternative as aName, " +
+			"tree_info.characteristics as key, " +
+			"tree_info.wood as wood, " +
+			"tree_info.uses as uses, " +
+			"tree_info.distribution as dist, " +
+			"tree_info.description as desc " +
+			"from tree_name inner join tree_info on tree_name.tree_info_id = tree_info._id where tree_name._id = " + id;
 		Cursor cur = db.rawQuery(selectQuery, null);
 		cur.moveToFirst();
 		//-- Auxiliary map that links column names with group titles
@@ -74,12 +74,12 @@ public class TreeInfoFragment extends Fragment{
 		ArrayList<Map<String,String>> groupData = new ArrayList<Map<String,String>>();
 		ArrayList<ArrayList<Map<String,String>>> childData = new ArrayList<ArrayList<Map<String,String>>>();
 		for(int i=0; i<columnOrder.length; i++) {
-			if(cur.getString(cur.getColumnIndex(columnOrder[i])) != null) {
+			String childEntry = cur.getString(cur.getColumnIndex(columnOrder[i]));
+			if( childEntry != null && !childEntry.equals("")) {
 				//-- Prepare groupData
 				groupData.add(mapBuilder("headerLine", columnToHeaderMap.get(columnOrder[i])));
 				//-- Prepare childData
-				String childEntry = cur.getString(cur.getColumnIndex(columnOrder[i]));
-				if(columnOrder[i].equals("cName")) {
+				if(columnOrder[i].equals("cName") || columnOrder[i].equals("aName") || columnOrder[i].equals("bName")) {
 					childEntry = capitalize(childEntry);
 				}
 				ArrayList<Map<String, String>> temp = new ArrayList<Map<String, String>>();
@@ -101,7 +101,7 @@ public class TreeInfoFragment extends Fragment{
 		);
 		ExpandableListView myList = (ExpandableListView) view.findViewById(R.id.treeInfoListView);
 		myList.setAdapter(myListAdapter);
-		myList.expandGroup(0);
+		//myList.expandGroup(2);
 		myList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 			@Override
 			public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
@@ -116,7 +116,7 @@ public class TreeInfoFragment extends Fragment{
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(200,200);
 		lp.setMargins(10,10,10,10);
 		try {
-			String galleryDirectoryName = "images/treeInfo/" + cur.getString(cur.getColumnIndex("cName")).toLowerCase();
+			String galleryDirectoryName = "images/treeInfo/" + cur.getString(cur.getColumnIndex("cName"));
 			String[] listImages = getActivity().getAssets().list(galleryDirectoryName);
 			ArrayList<Drawable> listOfDrawables = new ArrayList<Drawable>();
 			for (String imageName : listImages) {

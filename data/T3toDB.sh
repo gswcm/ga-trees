@@ -101,7 +101,7 @@ done
 #-- Update tree_name table to include association woth tree_group
 while IFS="," read id low high; do 
 	[ -z $id ] && continue
-	sqlite3 -init db.config ga-trees.db "update tree_name set tree_group_id=$id where _id>=$low and _id<=$high;"				
+	sqlite3 -init db.config "$dbName" "update tree_name set tree_group_id=$id where _id>=$low and _id<=$high;"				
 done <<EOF
 1,1,10
 2,11,11
