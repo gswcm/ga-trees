@@ -23,7 +23,6 @@ import java.util.ArrayList;
 public class TreeImageFragment extends Fragment {
 
 
-	private Drawable drawable;
 	private ArrayList<Drawable> listOfDrawables;
 	private ImageSwitcher imageSwitcher;
 	private int imageIndex;
@@ -49,12 +48,12 @@ public class TreeImageFragment extends Fragment {
 		Animation out = AnimationUtils.loadAnimation(getActivity(), android.R.anim.fade_out);
 		imageSwitcher.setInAnimation(in);
 		imageSwitcher.setOutAnimation(out);
-		imageSwitcher.setImageDrawable(drawable);
+		imageSwitcher.setImageDrawable(listOfDrawables.get(imageIndex));
 		imageSwitcher.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				imageSwitcher.setImageDrawable(listOfDrawables.get(imageIndex));
 				imageIndex = (imageIndex + 1) % listOfDrawables.size();
+				imageSwitcher.setImageDrawable(listOfDrawables.get(imageIndex));
 			}
 		});
 		/*
@@ -77,11 +76,10 @@ public class TreeImageFragment extends Fragment {
 	}
 
 
-	public static TreeImageFragment getInstance(Drawable drawable, ArrayList<Drawable> listOfDrawables) {
+	public static TreeImageFragment getInstance(int indexOfClickedView, ArrayList<Drawable> listOfDrawables) {
 		TreeImageFragment f = new TreeImageFragment();
-		f.drawable = drawable;
 		f.listOfDrawables = listOfDrawables;
-		f.imageIndex = 0;
+		f.imageIndex = indexOfClickedView;
 		return f;
 	}
 }
