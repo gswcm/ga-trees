@@ -21,6 +21,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
 import android.content.res.Resources;
@@ -38,7 +39,7 @@ public class TreeInfoFragment extends Fragment{
 	private SQLiteDatabase db;
 	private DisplayMetrics metrics;
 	private int imageViewPixelSize;
-	private static final int IMAGEVIEW_RELATIVE_HEIGHT = 15; // % of screen height in portrait orientation
+	private static final int IMAGEVIEW_RELATIVE_HEIGHT = 15; // % of screen height
 	private String capitalize(String line) {
 		return Character.toUpperCase(line.charAt(0)) + line.toLowerCase().substring(1);
 	}
@@ -137,7 +138,7 @@ public class TreeInfoFragment extends Fragment{
 		new bitmapLoader().execute(galleryDirectoryName);
 		return view;
 	}
-	private class bitmapLoader extends AsyncTask<String,Void,ArrayList<ImageView>> {
+	private class bitmapLoader extends AsyncTask<String,Integer,ArrayList<ImageView>> {
 		@Override
 		protected ArrayList<ImageView> doInBackground(String... strings) {
 			ArrayList<Drawable> listOfDrawables = new ArrayList<Drawable>();
@@ -147,17 +148,22 @@ public class TreeInfoFragment extends Fragment{
 			Bitmap large, small;
 			try {
 				String[] listImages = getActivity().getAssets().list(strings[0]);
+				int N = listImages.length, currentProgress = 0;
 				for (String imageName : listImages) {
 					is = getActivity().getAssets().open(strings[0] + "/" + imageName);
 					large = BitmapFactory.decodeStream(is);
+					publishProgress(currentProgress++,4*N-1);
 					small = Bitmap.createScaledBitmap(large, imageViewPixelSize, imageViewPixelSize, false);
+					publishProgress(currentProgress++,4*N-1);
 					d = new BitmapDrawable(getResources(),large);
 					listOfDrawables.add(d);
 					ImageView imageView = new ImageView(Explorer.con);
 					imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 					imageView.setImageBitmap(small);
+					publishProgress(currentProgress++,4*N-1);
 					imageView.setOnClickListener(new onClickListener(listOfDrawables));
 					result.add(imageView);
+					publishProgress(currentProgress++,4*N-1);
 				}
 			}
 			catch (IOException e) {
@@ -169,6 +175,7 @@ public class TreeInfoFragment extends Fragment{
 		@Override
 		protected void onPostExecute(ArrayList<ImageView> list) {
 			View view = getView();
+			((ProgressBar)view.findViewById(R.id.progressBar)).setVisibility(View.INVISIBLE);
 			LinearLayout treeInfoGallery = (LinearLayout) view.findViewById(R.id.treeInfoGallery);
 			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(imageViewPixelSize,imageViewPixelSize);
 			int margin = imageViewPixelSize/20;
@@ -177,6 +184,17 @@ public class TreeInfoFragment extends Fragment{
 				imageView.setLayoutParams(lp);
 				treeInfoGallery.addView(imageView);
 			}
+		}
+		@Override
+		protected void onProgressUpdate(Integer... progress) {
+			int i = progress[0];
+			int Total = progress[1];
+			ProgressBar progressBar = (ProgressBar)getView().findViewById(R.id.progressBar);
+			progressBar.setMax(Total);
+			progressBar.setProgress(i);
+		}
+		@Override
+		protected void onPreExecute () {
 		}
 	}
 	private class onClickListener implements View.OnClickListener {
