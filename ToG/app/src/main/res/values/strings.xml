@@ -3,7 +3,8 @@
 
     <string name="app_name">Trees Of Georgia</string>
     <string name="action_settings">Settings</string>
-    <string name="action_mode">Switch mode</string>
+    <string name="action_mode_explore">Switch to explorer</string>
+    <string name="action_mode_identify">Switch to identifier</string>
     <string name="title_activity_identifier">Identifier</string>
     <string name="hello_world">Hello world!</string>
 

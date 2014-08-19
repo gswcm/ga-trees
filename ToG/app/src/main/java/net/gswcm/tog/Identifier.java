@@ -40,14 +40,12 @@ public class Identifier extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.action_mode:
-				Toast.makeText(this, "Switch mode activated", Toast.LENGTH_SHORT).show();
+			case R.id.action_mode_explore:
 				Intent intent=new Intent();
 				intent.setClass(this.getApplicationContext(), Explorer.class);
 				startActivity(intent);
 				return true;
 			case R.id.action_settings:
-				Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT).show();
 				return true;
 			default:
 				break;
