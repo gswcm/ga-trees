@@ -136,6 +136,7 @@ public class TreeInfoFragment extends Fragment{
 		//-- Display image gallery
 		String galleryDirectoryName = "images/treeInfo/" + cur.getString(cur.getColumnIndex("cName"));
 		new bitmapLoader().execute(galleryDirectoryName);
+		getActivity().getActionBar().show();
 		return view;
 	}
 	private class bitmapLoader extends AsyncTask<String,Integer,ArrayList<ImageView>> {

@@ -67,6 +67,7 @@ public class TreeImageFragment extends Fragment {
 			}
 		});
 		*/
+		getActivity().getActionBar().hide();
 		return view;
 	}
 	@Override

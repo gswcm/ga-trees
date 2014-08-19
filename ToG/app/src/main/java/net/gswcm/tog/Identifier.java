@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 
-public class Explorer extends Activity {
+public class Identifier extends Activity {
 
 	public static Context con;
 
@@ -20,20 +20,20 @@ public class Explorer extends Activity {
 		con = this.getApplicationContext();
 		dbHelper dbh = new dbHelper();
 		ActionBar actionBar = getActionBar();
-		actionBar.setSubtitle("Tree Explorer");
-
+		actionBar.setSubtitle("Tree Identifier");
 		if (savedInstanceState == null) {
 			getFragmentManager()
 				.beginTransaction()
-				.add(android.R.id.content,ExplorerFragment.getInstance(dbh.getDb()))
+				.replace(android.R.id.content, TreeInfoFragment.getInstance(1, dbh.getDb()), null)
 				.commit();
 		}
 	}
 
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.explorer, menu);
+		getMenuInflater().inflate(R.menu.identifier, menu);
 		return true;
 	}
 
@@ -43,7 +43,7 @@ public class Explorer extends Activity {
 			case R.id.action_mode:
 				Toast.makeText(this, "Switch mode activated", Toast.LENGTH_SHORT).show();
 				Intent intent=new Intent();
-				intent.setClass(this.getApplicationContext(), Identifier.class);
+				intent.setClass(this.getApplicationContext(), Explorer.class);
 				startActivity(intent);
 				return true;
 			case R.id.action_settings:
