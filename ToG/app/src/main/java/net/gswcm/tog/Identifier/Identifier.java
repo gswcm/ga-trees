@@ -27,7 +27,7 @@ public class Identifier extends Activity {
 		if (savedInstanceState == null) {
 			getFragmentManager()
 				.beginTransaction()
-				.replace(android.R.id.content, IdentifierTreeListFragment.getInstance(dbh.getDb(), 17, 19), null)
+				.replace(android.R.id.content, IdentifierQuestListFragment.getInstance(dbh.getDb()), null)
 				.commit();
 		}
 	}
