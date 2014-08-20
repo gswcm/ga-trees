@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="net.gswcm.tog.TreeInfoFragment">
+    tools:context="net.gswcm.tog.Common.TreeInfoFragment">
 
     <TextView
         android:layout_width="match_parent"

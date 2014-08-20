@@ -1,4 +1,4 @@
-package net.gswcm.tog;
+package net.gswcm.tog.Explorer;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+
+import net.gswcm.tog.R;
+import net.gswcm.tog.Common.TreeInfoFragment;
 
 
 public class ExplorerListFragment extends Fragment {
@@ -36,7 +39,7 @@ public class ExplorerListFragment extends Fragment {
 				public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 					getFragmentManager()
 						.beginTransaction()
-						.replace(android.R.id.content,TreeInfoFragment.getInstance((int)id,db),null)
+						.replace(android.R.id.content, TreeInfoFragment.getInstance((int) id, db),null)
 						.addToBackStack(null)
 						.commit();
 					return true;

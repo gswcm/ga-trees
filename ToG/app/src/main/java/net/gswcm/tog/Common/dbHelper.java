@@ -1,7 +1,9 @@
-package net.gswcm.tog;
+package net.gswcm.tog.Common;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
+
+import net.gswcm.tog.Explorer.Explorer;
 
 public class dbHelper extends SQLiteAssetHelper {
 

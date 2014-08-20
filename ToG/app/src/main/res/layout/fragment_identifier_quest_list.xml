@@ -2,11 +2,12 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="net.gswcm.tog.Common.TreeImageFragment">
+             tools:context="net.gswcm.tog.Identifier.IdentifierQuestListFragment">
 
-    <ImageSwitcher
+    <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/treeImageSwitcher"
-        android:layout_gravity="center"/>
+        android:id="@+id/identifierTreeListView"
+        android:layout_gravity="left|top"/>
+
 </FrameLayout>

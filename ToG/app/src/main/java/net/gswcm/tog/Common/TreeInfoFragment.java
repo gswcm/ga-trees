@@ -1,4 +1,4 @@
-package net.gswcm.tog;
+package net.gswcm.tog.Common;
 
 import android.app.FragmentTransaction;
 import android.database.Cursor;
@@ -17,14 +17,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
-import android.widget.HorizontalScrollView;
-import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
 import android.content.res.Resources;
+
+import net.gswcm.tog.Explorer.Explorer;
+import net.gswcm.tog.R;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;

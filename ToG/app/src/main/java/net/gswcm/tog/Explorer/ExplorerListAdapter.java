@@ -1,4 +1,4 @@
-package net.gswcm.tog;
+package net.gswcm.tog.Explorer;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorTreeAdapter;
 import android.widget.TextView;
+
+import net.gswcm.tog.R;
 
 public class ExplorerListAdapter extends CursorTreeAdapter {
 
