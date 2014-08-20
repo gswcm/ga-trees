@@ -136,6 +136,14 @@ public class TreeInfoFragment extends Fragment{
 		//-- Display image gallery
 		String galleryDirectoryName = "images/treeInfo/" + cur.getString(cur.getColumnIndex("cName"));
 		new bitmapLoader().execute(galleryDirectoryName);
+		try {
+			if(getActivity().getAssets().list(galleryDirectoryName).length == 0) {
+				view.findViewById(R.id.scrollView).setVisibility(View.GONE);
+			}
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 		getActivity().getActionBar().show();
 		return view;
 	}

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 
 public class Explorer extends Activity {
@@ -25,7 +24,7 @@ public class Explorer extends Activity {
 		if (savedInstanceState == null) {
 			getFragmentManager()
 				.beginTransaction()
-				.add(android.R.id.content,ExplorerFragment.getInstance(dbh.getDb()))
+				.add(android.R.id.content, ExplorerListFragment.getInstance(dbh.getDb()))
 				.commit();
 		}
 	}

@@ -10,24 +10,24 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
 
-public class ExplorerFragment extends Fragment {
+public class ExplorerListFragment extends Fragment {
 
 	private SQLiteDatabase db;
 
-	public static ExplorerFragment getInstance(SQLiteDatabase db) {
-		ExplorerFragment f = new ExplorerFragment();
+	public static ExplorerListFragment getInstance(SQLiteDatabase db) {
+		ExplorerListFragment f = new ExplorerListFragment();
 		f.db = db;
 		return f;
 	}
-	public ExplorerFragment() {
+	public ExplorerListFragment() {
 		super();
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_explorer, container, false);
+		View view = inflater.inflate(R.layout.fragment_explorer_list, container, false);
 		Cursor cur = db.rawQuery("select * from tree_group", null);
 		if (cur != null && cur.moveToFirst()) {
-			explorerListAdapter myCursorAdapter = new explorerListAdapter(cur, Explorer.con);
+			ExplorerListAdapter myCursorAdapter = new ExplorerListAdapter(cur, Explorer.con);
 			ExpandableListView myList = (ExpandableListView) view.findViewById(R.id.explorerListView);
 			myList.setAdapter(myCursorAdapter);
 

@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.CursorTreeAdapter;
 import android.widget.TextView;
 
-public class explorerListAdapter extends CursorTreeAdapter {
+public class ExplorerListAdapter extends CursorTreeAdapter {
 
 
 	private Context con;
@@ -21,7 +21,7 @@ public class explorerListAdapter extends CursorTreeAdapter {
 		return Character.toUpperCase(line.charAt(0)) + line.toLowerCase().substring(1);
 	}
 
-	public explorerListAdapter(Cursor cursor, Context context) {
+	public ExplorerListAdapter(Cursor cursor, Context context) {
 		super(cursor, context);
 		this.con = context;
 		this.inflater = LayoutInflater.from(context);
@@ -39,7 +39,7 @@ public class explorerListAdapter extends CursorTreeAdapter {
 
 	@Override
 	protected View newGroupView(Context context, Cursor cursor, boolean b, ViewGroup viewGroup) {
-		final View view = inflater.inflate(R.layout.family_item, viewGroup, false);
+		final View view = inflater.inflate(R.layout.explorer_family_item, viewGroup, false);
 		return view;
 	}
 
@@ -59,7 +59,7 @@ public class explorerListAdapter extends CursorTreeAdapter {
 
 	@Override
 	protected View newChildView(Context context, Cursor cursor, boolean b, ViewGroup viewGroup) {
-		final View view = inflater.inflate(R.layout.tree_item, viewGroup, false);
+		final View view = inflater.inflate(R.layout.explorer_tree_item, viewGroup, false);
 		return view;
 	}
 
