@@ -29,6 +29,7 @@ import java.util.List;
 
 class QuestItem {
 	private String questText;
+	private String answerText;
 	private Bitmap yesBitmap;
 	private Bitmap noBitmap;
 	private String yesHelperText;
@@ -42,6 +43,7 @@ class QuestItem {
 		this.noBitmap = noBitmap;
 		this.yesHelperText = yesHelperText;
 		this.noHelperText = noHelperText;
+		this.answerText = "";
 	}
 
 	public String getQuestText() {
@@ -66,6 +68,14 @@ class QuestItem {
 
 	public Cursor getCursor() {
 		return cursor;
+	}
+
+	public String getAnswerText() {
+		return answerText;
+	}
+
+	public void setAnswerText(String answerText) {
+		this.answerText = answerText;
 	}
 }
 
@@ -124,10 +134,12 @@ class IdentifierListViewAdapter extends ArrayAdapter<QuestItem> {
 	private class YesNoActionHandler implements View.OnClickListener {
 		private Cursor cursor;
 		private boolean yesAction;
+		private int position;
 
-		public YesNoActionHandler(Cursor cursor, boolean yesAction) {
+		public YesNoActionHandler(Cursor cursor, boolean yesAction, int position) {
 			this.cursor = cursor;
 			this.yesAction = yesAction;
+			this.position = position;
 		}
 
 		@Override
@@ -140,10 +152,11 @@ class IdentifierListViewAdapter extends ArrayAdapter<QuestItem> {
 			String questColName = yesAction ? "yes_quest_id" : "no_quest_id";
 			String rangeColName = yesAction ? "yes_range_id" : "no_range_id";
 			String labelColName = yesAction ? "yes_label" : "no_label";
-			String labelText = cursor.getString(cursor.getColumnIndex(labelColName));
-			if (labelText == null)
-				labelText = yesAction ? "yes" : "no";
-			answerField.setText(labelText);
+			String answerText = cursor.getString(cursor.getColumnIndex(labelColName));
+			if (answerText == null)
+				answerText = yesAction ? "Yes" : "No";
+			getItem(position).setAnswerText(answerText);
+			answerField.setText(answerText);
 			if (curNav != null && curNav.moveToFirst()) {
 				if (curNav.getString(curNav.getColumnIndex(questColName)) != null) {
 					//-- next question
@@ -201,6 +214,7 @@ class IdentifierListViewAdapter extends ArrayAdapter<QuestItem> {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		setTextView(holder.questTextView, rowItem.getQuestText());
+		setTextView(holder.answerTextView, rowItem.getAnswerText());
 		setTextView(holder.yesTextView, rowItem.getYesHelperText());
 		setTextView(holder.noTextView, rowItem.getNoHelperText());
 		setImageView(holder.yesImageView, rowItem.getYesBitmap());
@@ -213,8 +227,8 @@ class IdentifierListViewAdapter extends ArrayAdapter<QuestItem> {
 			holder.noTextView.setVisibility(View.GONE);
 		}
 		//-- Instantiation of yes/no handlers
-		YesNoActionHandler yesHandler = new YesNoActionHandler(rowItem.getCursor(), true);
-		YesNoActionHandler noHandler = new YesNoActionHandler(rowItem.getCursor(), false);
+		YesNoActionHandler yesHandler = new YesNoActionHandler(rowItem.getCursor(), true, position);
+		YesNoActionHandler noHandler = new YesNoActionHandler(rowItem.getCursor(), false, position);
 		QuestAnswerActionHandler qaHandler = new QuestAnswerActionHandler(position);
 		//-- Assigning handlers to corresponding views
 		holder.yesImageView.setOnClickListener(yesHandler);
@@ -231,6 +245,7 @@ class IdentifierListViewAdapter extends ArrayAdapter<QuestItem> {
 public class IdentifierQuestListFragment extends Fragment {
 	private SQLiteDatabase db;
 	private DisplayMetrics metrics;
+	private IdentifierListViewAdapter myListAdapter;
 
 	private String capitalize(String line) {
 		return Character.toUpperCase(line.charAt(0)) + line.toLowerCase().substring(1);
@@ -240,6 +255,7 @@ public class IdentifierQuestListFragment extends Fragment {
 		IdentifierQuestListFragment f = new IdentifierQuestListFragment();
 		f.db = db;
 		f.metrics = Resources.getSystem().getDisplayMetrics();
+		f.myListAdapter = null;
 		return f;
 	}
 
@@ -259,33 +275,33 @@ public class IdentifierQuestListFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_identifier_quest_list, container, false);
-		Cursor cur;
-		ArrayList<QuestItem> questItems = new ArrayList<QuestItem>();
-		QuestItem rawItem;
 		ListView myList = (ListView) view.findViewById(R.id.identifierQuestListView);
-		String questText, yesText, noText;
-		Bitmap yesBitmap, noBitmap;
-
-		cur = db.rawQuery("select * from quest_data where _id = 10000", null);
-		if (cur != null && cur.moveToFirst()) {
-			questText = cur.getString(cur.getColumnIndex("quest_text"));
-			yesText = cur.getString(cur.getColumnIndex("yes_label"));
-			if (yesText == null)
-				yesText = "Yes";
-			noText = cur.getString(cur.getColumnIndex("no_label"));
-			if (noText == null)
-				noText = "No";
-			//-- Reading Bitmap object from the imageMap
-			yesBitmap = loadImage(cur.getString(cur.getColumnIndex("yes_pic")));
-			noBitmap = loadImage(cur.getString(cur.getColumnIndex("no_pic")));
-			//-- Creating an instance of QuestItem to be passed to the adapter
-			rawItem = new QuestItem(cur, questText, yesBitmap, noBitmap, yesText, noText);
-			//-- Adding fresh QuestItem instance to List
-			questItems.add(rawItem);
+		if (myListAdapter == null) {
+			ArrayList<QuestItem> questItems = new ArrayList<QuestItem>();
+			Cursor cur;
+			QuestItem rawItem;
+			String questText, yesText, noText;
+			Bitmap yesBitmap, noBitmap;
+			cur = db.rawQuery("select * from quest_data where _id = 10000", null);
+			if (cur != null && cur.moveToFirst()) {
+				questText = cur.getString(cur.getColumnIndex("quest_text"));
+				yesText = cur.getString(cur.getColumnIndex("yes_label"));
+				if (yesText == null)
+					yesText = "Yes";
+				noText = cur.getString(cur.getColumnIndex("no_label"));
+				if (noText == null)
+					noText = "No";
+				//-- Reading Bitmap object from the imageMap
+				yesBitmap = loadImage(cur.getString(cur.getColumnIndex("yes_pic")));
+				noBitmap = loadImage(cur.getString(cur.getColumnIndex("no_pic")));
+				//-- Creating an instance of QuestItem to be passed to the adapter
+				rawItem = new QuestItem(cur, questText, yesBitmap, noBitmap, yesText, noText);
+				//-- Adding fresh QuestItem instance to List
+				questItems.add(rawItem);
+			}
+			myListAdapter = new IdentifierListViewAdapter(this, Identifier.con, R.layout.identifier_quest_item, questItems);
 		}
-		IdentifierListViewAdapter adapter = new IdentifierListViewAdapter(this, Identifier.con, R.layout.identifier_quest_item, questItems);
-		myList.setAdapter(adapter);
-
+		myList.setAdapter(myListAdapter);
 		return view;
 	}
 }
