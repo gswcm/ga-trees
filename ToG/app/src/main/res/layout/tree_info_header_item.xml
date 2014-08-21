@@ -14,5 +14,6 @@
         android:textStyle="bold"
         android:paddingLeft="30dp"
         tools:ignore="RtlSymmetry"
-        android:textSize="22sp"/>
+        android:textSize="22sp"
+        android:textColor="#ff669900"/>
 </LinearLayout>

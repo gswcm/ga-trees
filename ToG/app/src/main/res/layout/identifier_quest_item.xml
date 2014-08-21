@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
     <TextView
         android:layout_width="wrap_content"
@@ -31,7 +31,8 @@
         android:textStyle="bold"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:textColor="#ffffbb33"/>
+        android:textColor="#ffffbb33"
+        />
 
     <ImageView
         android:layout_width="140dp"
@@ -58,10 +59,11 @@
         android:layout_below="@+id/yesImageView"
         android:layout_alignLeft="@+id/yesImageView"
         android:layout_alignRight="@+id/yesImageView"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:gravity="center"
         android:visibility="visible"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:layout_marginBottom="15dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -71,9 +73,10 @@
         android:id="@+id/noTextView"
         android:layout_alignRight="@+id/noImageView"
         android:layout_below="@+id/noImageView"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:layout_alignLeft="@+id/noImageView"
         android:gravity="center"
         android:visibility="visible"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:layout_marginBottom="15dp"/>
 </RelativeLayout>
