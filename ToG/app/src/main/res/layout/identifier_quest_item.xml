@@ -31,7 +31,8 @@
         android:textStyle="bold"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:textColor="#ffffbb33"/>
+        android:textColor="#ffffbb33"
+        android:text="text"/>
 
     <ImageView
         android:layout_width="140dp"

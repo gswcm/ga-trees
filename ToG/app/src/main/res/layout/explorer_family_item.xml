@@ -13,7 +13,8 @@
         android:textStyle="bold"
         android:paddingLeft="30dp"
         tools:ignore="RtlSymmetry"
-        android:textSize="22sp"/>
+        android:textSize="22sp"
+        android:textColor="#ff0099cc"/>
 
     <TextView
         android:layout_width="match_parent"
