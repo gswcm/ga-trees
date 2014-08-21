@@ -2,6 +2,7 @@ package net.gswcm.tog.Identifier;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -21,6 +22,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import net.gswcm.tog.Common.TreeImageFragment;
 import net.gswcm.tog.R;
 
 import java.io.IOException;
@@ -112,7 +114,11 @@ class IdentifierListViewAdapter extends ArrayAdapter<QuestItem> {
 			Cursor curNav = db.rawQuery("select * from quest_navigation where _id = " + id,null);
 			String questColName = yesAction ? "yes_quest_id" : "no_quest_id";
 			String rangeColName = yesAction ? "yes_range_id" : "no_range_id";
-			answerField.setText(yesAction ? "yes" : "no");
+			String labelColName = yesAction ? "yes_label" : "no_label";
+			String labelText = cursor.getString(cursor.getColumnIndex(labelColName));
+			if(labelText == null)
+				labelText = yesAction ? "yes" : "no";
+			answerField.setText(labelText);
 			if (curNav != null && curNav.moveToFirst()) {
 				if( curNav.getString(curNav.getColumnIndex(questColName)) != null) {
 					//-- next question
@@ -138,6 +144,16 @@ class IdentifierListViewAdapter extends ArrayAdapter<QuestItem> {
 				else {
 					//-- tree range
 					int nextRangeId =  curNav.getInt(curNav.getColumnIndex(rangeColName));
+					Cursor curData = db.rawQuery("select * from tree_range where _id = " + nextRangeId, null);
+					if (curData != null && curData.moveToFirst()) {
+						int lowTreeId = curData.getInt(curData.getColumnIndex("low_tree_name_id"));
+						int highTreeId = curData.getInt(curData.getColumnIndex("high_tree_name_id"));
+						f.getFragmentManager()
+							.beginTransaction()
+							.replace(android.R.id.content, IdentifierTreeListFragment.getInstance(db,lowTreeId,highTreeId), null)
+							.addToBackStack(null)
+							.commit();
+					}
 				}
 			}
 		}
