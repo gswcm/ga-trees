@@ -5,10 +5,10 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -18,28 +18,28 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import net.gswcm.tog.Explorer.Explorer;
 import net.gswcm.tog.R;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 class QuestItem {
 	private String questText;
-	private String answerText;
 	private Bitmap yesBitmap;
 	private Bitmap noBitmap;
 	private String yesHelperText;
 	private String noHelperText;
-	QuestItem(String questText, String answerText, Bitmap yesBitmap, Bitmap noBitmap, String yesHelperText, String noHelperText) {
+	private Cursor cursor;
+	QuestItem(Cursor cursor, String questText, Bitmap yesBitmap, Bitmap noBitmap, String yesHelperText, String noHelperText) {
+		this.cursor = cursor;
 		this.questText = questText;
-		this.answerText = answerText;
 		this.yesBitmap = yesBitmap;
 		this.noBitmap = noBitmap;
 		this.yesHelperText = yesHelperText;
@@ -47,9 +47,6 @@ class QuestItem {
 	}
 	public String getQuestText() {
 		return questText;
-	}
-	public String getAnswerText() {
-		return answerText;
 	}
 	public Bitmap getYesBitmap() {
 		return yesBitmap;
@@ -63,19 +60,21 @@ class QuestItem {
 	public String getNoHelperText() {
 		return noHelperText;
 	}
+	public Cursor getCursor() {
+		return cursor;
+	}
 }
 
 class IdentifierListViewAdapter extends ArrayAdapter<QuestItem> {
-	private Context con;
-	public IdentifierListViewAdapter(Context context, int resource, List<QuestItem> objects) {
+	private IdentifierQuestListFragment f;
+	public IdentifierListViewAdapter(IdentifierQuestListFragment f, Context context, int resource, List<QuestItem> objects) {
 		super(context, resource, objects);
-		con = context;
+		this.f = f;
 	}
 	private class ViewHolder {
 		ImageView yesImageView;
 		ImageView noImageView;
 		TextView questTextView;
-		TextView answerTextView;
 		TextView yesTextView;
 		TextView noTextView;
 	}
@@ -97,16 +96,50 @@ class IdentifierListViewAdapter extends ArrayAdapter<QuestItem> {
 			v.setVisibility(View.GONE);
 		}
 	}
-	private class yesActionHandler implements View.OnClickListener {
-		@Override
-		public void onClick(View view) {
-			Toast.makeText(con, "Yes!!!", Toast.LENGTH_SHORT).show();
+	private class ActionHandler implements View.OnClickListener {
+		private Cursor cursor;
+		private boolean yesAction;
+		public ActionHandler(Cursor cursor, boolean yesAction) {
+			this.cursor = cursor;
+			this.yesAction = yesAction;
 		}
-	}
-	private class noActionHandler implements View.OnClickListener {
 		@Override
 		public void onClick(View view) {
-			Toast.makeText(con, "No!!!", Toast.LENGTH_SHORT).show();
+			TextView answerField = (TextView)((RelativeLayout)view.getParent()).findViewById(R.id.answerTextView);
+			int id = cursor.getInt(cursor.getColumnIndex("_id"));
+			SQLiteDatabase db = ((SQLiteCursor)cursor).getDatabase();
+			//Toast.makeText(getContext(), String.format("ID: %d, yes/no: %s", id, yesAction), Toast.LENGTH_LONG).show();
+			Cursor curNav = db.rawQuery("select * from quest_navigation where _id = " + id,null);
+			String questColName = yesAction ? "yes_quest_id" : "no_quest_id";
+			String rangeColName = yesAction ? "yes_range_id" : "no_range_id";
+			answerField.setText(yesAction ? "yes" : "no");
+			if (curNav != null && curNav.moveToFirst()) {
+				if( curNav.getString(curNav.getColumnIndex(questColName)) != null) {
+					//-- next question
+					int nextQuestId =  curNav.getInt(curNav.getColumnIndex(questColName));
+					String questText, yesText, noText;
+					Bitmap yesBitmap, noBitmap;
+					Cursor curData = db.rawQuery("select * from quest_data where _id = " + nextQuestId, null);
+					if (curData != null && curData.moveToFirst()) {
+						questText = curData.getString(curData.getColumnIndex("quest_text"));
+						yesText = curData.getString(curData.getColumnIndex("yes_label"));
+						if (yesText == null)
+							yesText = "Yes";
+						noText = curData.getString(curData.getColumnIndex("no_label"));
+						if (noText == null)
+							noText = "No";
+
+						yesBitmap = f.loadImage(curData.getString(curData.getColumnIndex("yes_pic")));
+						noBitmap = f.loadImage(curData.getString(curData.getColumnIndex("no_pic")));
+						add(new QuestItem(curData, questText, yesBitmap, noBitmap, yesText, noText));
+						notifyDataSetChanged();
+					}
+				}
+				else {
+					//-- tree range
+					int nextRangeId =  curNav.getInt(curNav.getColumnIndex(rangeColName));
+				}
+			}
 		}
 	}
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -117,7 +150,6 @@ class IdentifierListViewAdapter extends ArrayAdapter<QuestItem> {
 			convertView = mInflater.inflate(R.layout.identifier_quest_item, null);
 			holder = new ViewHolder();
 			holder.questTextView = (TextView)convertView.findViewById(R.id.questTextView);
-			holder.answerTextView = (TextView)convertView.findViewById(R.id.answerTextView);
 			holder.yesTextView = (TextView)convertView.findViewById(R.id.yesTextView);
 			holder.noTextView = (TextView)convertView.findViewById(R.id.noTextView);
 			holder.yesImageView = (ImageView)convertView.findViewById(R.id.yesImageView);
@@ -128,7 +160,6 @@ class IdentifierListViewAdapter extends ArrayAdapter<QuestItem> {
 			holder = (ViewHolder)convertView.getTag();
 		}
 		setTextView(holder.questTextView,rowItem.getQuestText());
-		setTextView(holder.answerTextView,rowItem.getAnswerText());
 		setTextView(holder.yesTextView,rowItem.getYesHelperText());
 		setTextView(holder.noTextView,rowItem.getNoHelperText());
 		setImageView(holder.yesImageView, rowItem.getYesBitmap());
@@ -140,11 +171,14 @@ class IdentifierListViewAdapter extends ArrayAdapter<QuestItem> {
 			holder.yesTextView.setVisibility(View.GONE);
 			holder.noTextView.setVisibility(View.GONE);
 		}
-
-		holder.yesImageView.setOnClickListener(new yesActionHandler());
-		holder.noImageView.setOnClickListener(new noActionHandler());
-		holder.yesTextView.setOnClickListener(new yesActionHandler());
-		holder.noTextView.setOnClickListener(new noActionHandler());
+		//-- Instantiation of yes/no handlers
+		View.OnClickListener yesHandler = new ActionHandler(rowItem.getCursor(),true);
+		View.OnClickListener noHandler = new ActionHandler(rowItem.getCursor(),false);
+		//-- Assigning handlers to corresponding views
+		holder.yesImageView.setOnClickListener(yesHandler);
+		holder.noImageView.setOnClickListener(noHandler);
+		holder.yesTextView.setOnClickListener(yesHandler);
+		holder.noTextView.setOnClickListener(noHandler);
 
 		return convertView;
 	}
@@ -163,43 +197,44 @@ public class IdentifierQuestListFragment extends Fragment {
 	}
 	public IdentifierQuestListFragment() {
 	}
+	public Bitmap loadImage(String imageName) {
+		try {
+			Bitmap b = BitmapFactory.decodeStream(getActivity().getAssets().open("images/identityInfo/" + imageName));
+			return b;
+		}
+		catch (IOException e) {
+			Log.i("IdentifierQuestListFragment.onCreateView: ", e.getMessage());
+		}
+		return null;
+	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_identifier_quest_list, container, false);
 		Cursor cur;
-		int currentQuestId = 97;
 		ArrayList<QuestItem> questItems = new ArrayList<QuestItem>();
 		QuestItem rawItem;
 		ListView myList = (ListView) view.findViewById(R.id.identifierQuestListView);
-		String questText, answerText, yesText, noText;
-		String imageDirName = "images/treeIdentification/";
-		InputStream is = null;
-		Bitmap yesBitmap, noBitmap ;
+		String questText, yesText, noText;
+		Bitmap yesBitmap, noBitmap;
 
-		for(;;) {
-			cur = db.rawQuery("select * from quest_data where _id = " + currentQuestId, null);
-			if (cur != null && cur.moveToFirst()) {
-				questText = cur.getString(cur.getColumnIndex("quest_text"));
-				answerText = "No";
-				yesText = cur.getString(cur.getColumnIndex("yes_label"));
-				noText = cur.getString(cur.getColumnIndex("no_label"));
-				yesBitmap = null;
-				noBitmap = null;
-				try {
-					yesBitmap = BitmapFactory.decodeStream(getActivity().getAssets()
-						.open(imageDirName + cur.getString(cur.getColumnIndex("yes_pic"))));
-					noBitmap = BitmapFactory.decodeStream(getActivity().getAssets()
-						.open(imageDirName + cur.getString(cur.getColumnIndex("no_pic"))));
-				}
-				catch (IOException e) {
-					Log.i("IdentifierQuestListFragment.onCreateView: ", e.getMessage());
-				}
-				rawItem = new QuestItem(questText,answerText,yesBitmap,noBitmap,yesText,noText);
-				questItems.add(rawItem);
-			}
-			break;
+		cur = db.rawQuery("select * from quest_data where _id = 10000", null);
+		if (cur != null && cur.moveToFirst()) {
+			questText = cur.getString(cur.getColumnIndex("quest_text"));
+			yesText = cur.getString(cur.getColumnIndex("yes_label"));
+			if(yesText == null)
+				yesText = "Yes";
+			noText = cur.getString(cur.getColumnIndex("no_label"));
+			if(noText == null)
+				noText = "No";
+			//-- Reading Bitmap object from the imageMap
+			yesBitmap = loadImage(cur.getString(cur.getColumnIndex("yes_pic")));
+			noBitmap = loadImage(cur.getString(cur.getColumnIndex("no_pic")));
+			//-- Creating an instance of QuestItem to be passed to the adapter
+			rawItem = new QuestItem(cur,questText,yesBitmap,noBitmap,yesText,noText);
+			//-- Adding fresh QuestItem instance to List
+			questItems.add(rawItem);
 		}
-		IdentifierListViewAdapter adapter = new IdentifierListViewAdapter(Identifier.con,R.layout.identifier_quest_item, questItems);
+		IdentifierListViewAdapter adapter = new IdentifierListViewAdapter(this, Identifier.con,R.layout.identifier_quest_item, questItems);
 		myList.setAdapter(adapter);
 
 		return view;
