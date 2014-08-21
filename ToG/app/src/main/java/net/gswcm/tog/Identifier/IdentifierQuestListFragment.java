@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import net.gswcm.tog.Explorer.Explorer;
 import net.gswcm.tog.R;
@@ -65,8 +66,10 @@ class QuestItem {
 }
 
 class IdentifierListViewAdapter extends ArrayAdapter<QuestItem> {
+	private Context con;
 	public IdentifierListViewAdapter(Context context, int resource, List<QuestItem> objects) {
 		super(context, resource, objects);
+		con = context;
 	}
 	private class ViewHolder {
 		ImageView yesImageView;
@@ -82,8 +85,28 @@ class IdentifierListViewAdapter extends ArrayAdapter<QuestItem> {
 			v.setVisibility(View.VISIBLE);
 		}
 		else {
-			v.setText("");
 			v.setVisibility(View.GONE);
+		}
+	}
+	private void setImageView(ImageView v, Bitmap b) {
+		if(b != null) {
+			v.setImageBitmap(b);
+			v.setVisibility(View.VISIBLE);
+		}
+		else {
+			v.setVisibility(View.GONE);
+		}
+	}
+	private class yesActionHandler implements View.OnClickListener {
+		@Override
+		public void onClick(View view) {
+			Toast.makeText(con, "Yes!!!", Toast.LENGTH_SHORT).show();
+		}
+	}
+	private class noActionHandler implements View.OnClickListener {
+		@Override
+		public void onClick(View view) {
+			Toast.makeText(con, "No!!!", Toast.LENGTH_SHORT).show();
 		}
 	}
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -108,8 +131,21 @@ class IdentifierListViewAdapter extends ArrayAdapter<QuestItem> {
 		setTextView(holder.answerTextView,rowItem.getAnswerText());
 		setTextView(holder.yesTextView,rowItem.getYesHelperText());
 		setTextView(holder.noTextView,rowItem.getNoHelperText());
-		holder.yesImageView.setImageBitmap(rowItem.getYesBitmap());
-		holder.noImageView.setImageBitmap(rowItem.getNoBitmap());
+		setImageView(holder.yesImageView, rowItem.getYesBitmap());
+		setImageView(holder.noImageView, rowItem.getNoBitmap());
+
+		if(position < getCount()-1) {
+			holder.yesImageView.setVisibility(View.GONE);
+			holder.noImageView.setVisibility(View.GONE);
+			holder.yesTextView.setVisibility(View.GONE);
+			holder.noTextView.setVisibility(View.GONE);
+		}
+
+		holder.yesImageView.setOnClickListener(new yesActionHandler());
+		holder.noImageView.setOnClickListener(new noActionHandler());
+		holder.yesTextView.setOnClickListener(new yesActionHandler());
+		holder.noTextView.setOnClickListener(new noActionHandler());
+
 		return convertView;
 	}
 }
@@ -131,7 +167,7 @@ public class IdentifierQuestListFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_identifier_quest_list, container, false);
 		Cursor cur;
-		int currentQuestId = 94;
+		int currentQuestId = 97;
 		ArrayList<QuestItem> questItems = new ArrayList<QuestItem>();
 		QuestItem rawItem;
 		ListView myList = (ListView) view.findViewById(R.id.identifierQuestListView);
@@ -156,7 +192,7 @@ public class IdentifierQuestListFragment extends Fragment {
 						.open(imageDirName + cur.getString(cur.getColumnIndex("no_pic"))));
 				}
 				catch (IOException e) {
-					Log.e("IdentifierQuestListFragment.onCreateView: ", e.getMessage());
+					Log.i("IdentifierQuestListFragment.onCreateView: ", e.getMessage());
 				}
 				rawItem = new QuestItem(questText,answerText,yesBitmap,noBitmap,yesText,noText);
 				questItems.add(rawItem);
