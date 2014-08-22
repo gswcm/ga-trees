@@ -41,7 +41,7 @@ public class ExplorerListAdapter extends CursorTreeAdapter {
 
 	@Override
 	protected View newGroupView(Context context, Cursor cursor, boolean b, ViewGroup viewGroup) {
-		final View view = inflater.inflate(R.layout.explorer_family_item, viewGroup, false);
+		final View view = inflater.inflate(R.layout.item_explorer_list_family, viewGroup, false);
 		return view;
 	}
 
@@ -61,7 +61,7 @@ public class ExplorerListAdapter extends CursorTreeAdapter {
 
 	@Override
 	protected View newChildView(Context context, Cursor cursor, boolean b, ViewGroup viewGroup) {
-		final View view = inflater.inflate(R.layout.explorer_tree_item, viewGroup, false);
+		final View view = inflater.inflate(R.layout.item_explorer_list_tree, viewGroup, false);
 		return view;
 	}
 

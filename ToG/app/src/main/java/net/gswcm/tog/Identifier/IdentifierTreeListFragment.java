@@ -48,7 +48,7 @@ public class IdentifierTreeListFragment extends Fragment {
 		if (cur != null && cur.moveToFirst()) {
 			SimpleCursorAdapter myCursorAdapter = new SimpleCursorAdapter(
 				getActivity(),
-				R.layout.identifier_tree_item,
+				R.layout.item_identifier_tree_list,
 				cur,
 				new String[]{"cName", "bName"},
 				new int[]{R.id.treeCommonName, R.id.treeBotanicalName},

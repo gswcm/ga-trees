@@ -18,9 +18,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
 
@@ -63,6 +65,7 @@ public class TreeInfoFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		int i, j = 0;
 		View view = inflater.inflate(R.layout.fragment_tree_info, container, false);
 		//-- Set size of horizontal LinearLayout which hosts images
 		LinearLayout gallery = (LinearLayout) view.findViewById(R.id.treeInfoGallery);
@@ -96,9 +99,11 @@ public class TreeInfoFragment extends Fragment {
 		//-- Fill up Group and Child data
 		ArrayList<Map<String, String>> groupData = new ArrayList<Map<String, String>>();
 		ArrayList<ArrayList<Map<String, String>>> childData = new ArrayList<ArrayList<Map<String, String>>>();
-		for (int i = 0; i < columnOrder.length; i++) {
+		Map<String,Integer> visibleGroupItems = new HashMap<String,Integer>();
+		for (i = 0; i < columnOrder.length; i++) {
 			String childEntry = cur.getString(cur.getColumnIndex(columnOrder[i]));
 			if (childEntry != null && !childEntry.equals("")) {
+				visibleGroupItems.put(columnOrder[i],j++);
 				//-- Prepare groupData
 				groupData.add(mapBuilder("headerLine", columnToHeaderMap.get(columnOrder[i])));
 				//-- Prepare childData
@@ -114,17 +119,17 @@ public class TreeInfoFragment extends Fragment {
 		SimpleExpandableListAdapter myListAdapter = new SimpleExpandableListAdapter(
 			getActivity(),
 			groupData,
-			R.layout.tree_info_header_item,
+			R.layout.item_tree_info_header,
 			new String[]{"headerLine"},
 			new int[]{R.id.treeInfoHeader},
 			childData,
-			R.layout.tree_info_text_item,
+			R.layout.item_tree_info_text,
 			new String[]{"textLine"},
 			new int[]{R.id.treeInfoText}
 		);
 		ExpandableListView myList = (ExpandableListView) view.findViewById(R.id.treeInfoListView);
 		myList.setAdapter(myListAdapter);
-		//myList.expandGroup(2);
+		myList.expandGroup(visibleGroupItems.get("desc"));
 		myList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 			@Override
 			public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
