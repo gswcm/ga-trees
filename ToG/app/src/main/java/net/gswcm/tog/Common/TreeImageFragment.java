@@ -27,6 +27,7 @@ public class TreeImageFragment extends Fragment {
 
 	public TreeImageFragment() {
 		super();
+		setRetainInstance(true);
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

@@ -13,8 +13,8 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-import net.gswcm.tog.R;
 import net.gswcm.tog.Common.TreeInfoFragment;
+import net.gswcm.tog.R;
 
 
 public class IdentifierTreeListFragment extends Fragment {
@@ -32,6 +32,7 @@ public class IdentifierTreeListFragment extends Fragment {
 		f.db = db;
 		f.low_tree_id = low_tree_id;
 		f.high_tree_id = high_tree_id;
+		f.setRetainInstance(true);
 		return f;
 	}
 
@@ -42,22 +43,22 @@ public class IdentifierTreeListFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_identifier_tree_list, container, false);
-		Cursor cur = db.rawQuery("select _id, tree_common as cName, tree_botanical as bName from tree_name where _id >= " + low_tree_id + " and _id <= " + high_tree_id,  null);
+		Cursor cur = db.rawQuery("select _id, tree_common as cName, tree_botanical as bName from tree_name where _id >= " + low_tree_id + " and _id <= " + high_tree_id, null);
 		ListView myList = (ListView) view.findViewById(R.id.identifierTreeListView);
 		if (cur != null && cur.moveToFirst()) {
 			SimpleCursorAdapter myCursorAdapter = new SimpleCursorAdapter(
-				Identifier.con,
+				getActivity(),
 				R.layout.identifier_tree_item,
 				cur,
-				new String[] {"cName","bName"},
-				new int[] {R.id.treeCommonName,R.id.treeBotanicalName},
+				new String[]{"cName", "bName"},
+				new int[]{R.id.treeCommonName, R.id.treeBotanicalName},
 				0
 			);
 			myCursorAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
 				@Override
 				public boolean setViewValue(View view, Cursor cursor, int i) {
-					if(i == cursor.getColumnIndex("cName")) {
-						((TextView)view).setText(capitalize(cursor.getString(i)));
+					if (i == cursor.getColumnIndex("cName") || i == cursor.getColumnIndex("bName")) {
+						((TextView) view).setText(capitalize(cursor.getString(i)));
 						return true;
 					}
 					return false;
@@ -69,7 +70,7 @@ public class IdentifierTreeListFragment extends Fragment {
 				public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
 					getFragmentManager()
 						.beginTransaction()
-						.replace(android.R.id.content, TreeInfoFragment.getInstance((int) id, db),null)
+						.replace(android.R.id.content, TreeInfoFragment.getInstance((int) id, db), null)
 						.addToBackStack(null)
 						.commit();
 				}
