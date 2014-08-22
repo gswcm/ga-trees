@@ -199,7 +199,7 @@ class IdentifierListViewAdapter extends ArrayAdapter<QuestItem> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder = null;
 		QuestItem rowItem = getItem(position);
-		LayoutInflater mInflater = (LayoutInflater) Identifier.con.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater mInflater = (LayoutInflater) f.getActivity().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 		if (convertView == null) {
 			convertView = mInflater.inflate(R.layout.identifier_quest_item, null);
 			holder = new ViewHolder();
@@ -256,6 +256,7 @@ public class IdentifierQuestListFragment extends Fragment {
 		f.db = db;
 		f.metrics = Resources.getSystem().getDisplayMetrics();
 		f.myListAdapter = null;
+		f.setRetainInstance(true);
 		return f;
 	}
 
@@ -299,7 +300,7 @@ public class IdentifierQuestListFragment extends Fragment {
 				//-- Adding fresh QuestItem instance to List
 				questItems.add(rawItem);
 			}
-			myListAdapter = new IdentifierListViewAdapter(this, Identifier.con, R.layout.identifier_quest_item, questItems);
+			myListAdapter = new IdentifierListViewAdapter(this, getActivity(), R.layout.identifier_quest_item, questItems);
 		}
 		myList.setAdapter(myListAdapter);
 		return view;

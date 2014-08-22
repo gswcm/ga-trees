@@ -2,32 +2,27 @@ package net.gswcm.tog.Identifier;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import net.gswcm.tog.Common.dbHelper;
 import net.gswcm.tog.Explorer.Explorer;
 import net.gswcm.tog.R;
+import net.gswcm.tog.ToG;
 
 
 public class Identifier extends Activity {
 
-	public static Context con;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		con = this.getApplicationContext();
-		dbHelper dbh = new dbHelper();
 		ActionBar actionBar = getActionBar();
 		actionBar.setSubtitle("Tree Identifier");
 		if (savedInstanceState == null) {
 			getFragmentManager()
 				.beginTransaction()
-				.replace(android.R.id.content, IdentifierQuestListFragment.getInstance(dbh.getDb()), null)
+				.replace(android.R.id.content, IdentifierQuestListFragment.getInstance(ToG.getDBHelper().getDb()), null)
 				.commit();
 		}
 	}
@@ -35,7 +30,6 @@ public class Identifier extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.identifier, menu);
 		return true;
 	}
@@ -44,8 +38,8 @@ public class Identifier extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.action_mode_explore:
-				Intent intent=new Intent();
-				intent.setClass(this.getApplicationContext(), Explorer.class);
+				Intent intent = new Intent();
+				intent.setClass(ToG.getAppContext(), Explorer.class);
 				startActivity(intent);
 				return true;
 			case R.id.action_settings:
