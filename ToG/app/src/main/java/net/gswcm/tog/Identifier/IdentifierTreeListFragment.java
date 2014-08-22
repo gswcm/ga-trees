@@ -57,7 +57,7 @@ public class IdentifierTreeListFragment extends Fragment {
 			myCursorAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
 				@Override
 				public boolean setViewValue(View view, Cursor cursor, int i) {
-					if (i == cursor.getColumnIndex("cName")) {
+					if (i == cursor.getColumnIndex("cName") || i == cursor.getColumnIndex("bName")) {
 						((TextView) view).setText(capitalize(cursor.getString(i)));
 						return true;
 					}

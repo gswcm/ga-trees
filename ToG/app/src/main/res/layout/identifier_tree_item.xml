@@ -14,7 +14,8 @@
         android:paddingLeft="30dp"
         tools:ignore="RtlSymmetry"
         android:textSize="18sp"
-        android:textColor="#ffffbb33"/>
+        android:textColor="#ffffbb33"
+        android:layout_marginTop="10dp"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -24,6 +25,7 @@
         android:textStyle="italic"
         android:paddingLeft="30dp"
         tools:ignore="RtlSymmetry"
-        android:textSize="14sp"/>
+        android:textSize="14sp"
+        android:layout_marginBottom="10dp"/>
 
 </LinearLayout>
