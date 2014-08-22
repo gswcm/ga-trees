@@ -25,14 +25,6 @@ public class Explorer extends Activity {
 				.add(android.R.id.content, ExplorerListFragment.getInstance(ToG.getDBHelper().getDb()))
 				.commit();
 		}
-		/*
-		if (savedInstanceState == null) {
-			getFragmentManager()
-				.beginTransaction()
-				.add(android.R.id.content, TreeInfoFragment.getInstance(5,ToG.getDBHelper().getDb()))
-				.commit();
-		}
-		*/
 	}
 
 	@Override
@@ -50,8 +42,10 @@ public class Explorer extends Activity {
 				intent.setClass(ToG.getAppContext(), Identifier.class);
 				startActivity(intent);
 				return true;
+			/*
 			case R.id.action_settings:
 				return true;
+			*/
 			default:
 				break;
 		}

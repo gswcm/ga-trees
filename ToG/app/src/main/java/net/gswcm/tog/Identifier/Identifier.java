@@ -42,8 +42,10 @@ public class Identifier extends Activity {
 				intent.setClass(ToG.getAppContext(), Explorer.class);
 				startActivity(intent);
 				return true;
+			/*
 			case R.id.action_settings:
 				return true;
+			*/
 			default:
 				break;
 		}

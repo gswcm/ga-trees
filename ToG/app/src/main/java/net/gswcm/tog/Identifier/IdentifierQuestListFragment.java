@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -92,11 +93,20 @@ class IdentifierListViewAdapter extends ArrayAdapter<QuestItem> {
 		ImageView noImageView;
 		TextView questTextView;
 		TextView answerTextView;
-		TextView yesTextView;
-		TextView noTextView;
+		Button yesButton;
+		Button noButton;
 	}
 
 	private void setTextView(TextView v, String s) {
+		if (s != null) {
+			v.setText(s);
+			v.setVisibility(View.VISIBLE);
+		} else {
+			v.setVisibility(View.GONE);
+		}
+	}
+
+	private void setButton(Button v, String s) {
 		if (s != null) {
 			v.setText(s);
 			v.setVisibility(View.VISIBLE);
@@ -205,8 +215,8 @@ class IdentifierListViewAdapter extends ArrayAdapter<QuestItem> {
 			holder = new ViewHolder();
 			holder.questTextView = (TextView) convertView.findViewById(R.id.questTextView);
 			holder.answerTextView = (TextView) convertView.findViewById(R.id.answerTextView);
-			holder.yesTextView = (TextView) convertView.findViewById(R.id.yesTextView);
-			holder.noTextView = (TextView) convertView.findViewById(R.id.noTextView);
+			holder.yesButton = (Button) convertView.findViewById(R.id.yesButton);
+			holder.noButton = (Button) convertView.findViewById(R.id.noButton);
 			holder.yesImageView = (ImageView) convertView.findViewById(R.id.yesImageView);
 			holder.noImageView = (ImageView) convertView.findViewById(R.id.noImageView);
 			convertView.setTag(holder);
@@ -215,16 +225,16 @@ class IdentifierListViewAdapter extends ArrayAdapter<QuestItem> {
 		}
 		setTextView(holder.questTextView, rowItem.getQuestText());
 		setTextView(holder.answerTextView, rowItem.getAnswerText());
-		setTextView(holder.yesTextView, rowItem.getYesHelperText());
-		setTextView(holder.noTextView, rowItem.getNoHelperText());
+		setButton(holder.yesButton, rowItem.getYesHelperText());
+		setButton(holder.noButton, rowItem.getNoHelperText());
 		setImageView(holder.yesImageView, rowItem.getYesBitmap());
 		setImageView(holder.noImageView, rowItem.getNoBitmap());
 
 		if (position < getCount() - 1) {
 			holder.yesImageView.setVisibility(View.GONE);
 			holder.noImageView.setVisibility(View.GONE);
-			holder.yesTextView.setVisibility(View.GONE);
-			holder.noTextView.setVisibility(View.GONE);
+			holder.yesButton.setVisibility(View.GONE);
+			holder.noButton.setVisibility(View.GONE);
 		}
 		//-- Instantiation of yes/no handlers
 		YesNoActionHandler yesHandler = new YesNoActionHandler(rowItem.getCursor(), true, position);
@@ -233,8 +243,8 @@ class IdentifierListViewAdapter extends ArrayAdapter<QuestItem> {
 		//-- Assigning handlers to corresponding views
 		holder.yesImageView.setOnClickListener(yesHandler);
 		holder.noImageView.setOnClickListener(noHandler);
-		holder.yesTextView.setOnClickListener(yesHandler);
-		holder.noTextView.setOnClickListener(noHandler);
+		holder.yesButton.setOnClickListener(yesHandler);
+		holder.noButton.setOnClickListener(noHandler);
 		holder.questTextView.setOnClickListener(qaHandler);
 		holder.answerTextView.setOnClickListener(qaHandler);
 
