@@ -256,7 +256,7 @@ int id bnameHeader 0x7f060049
 int id bnameView 0x7f06004a
 int id checkbox 0x7f06002d
 int id cnameHeader 0x7f060047
-int id cnameTitle 0x7f060044
+int id cnameTitle 0x7f060045
 int id cnameView 0x7f060048
 int id collapseActionView 0x7f06000d
 int id default_activity_button 0x7f060028
@@ -264,7 +264,6 @@ int id desHeader 0x7f06004d
 int id desView 0x7f06004e
 int id dialog 0x7f06000e
 int id disableHome 0x7f060008
-int id displayImage 0x7f060046
 int id dropdown 0x7f06000f
 int id edit_query 0x7f060030
 int id end 0x7f060013
@@ -281,7 +280,7 @@ int id listContainer 0x7f06003e
 int id listMode 0x7f060001
 int id list_item 0x7f060029
 int id middle 0x7f060012
-int id myGallery 0x7f060045
+int id myGallery 0x7f060046
 int id never 0x7f060009
 int id none 0x7f060010
 int id normal 0x7f060000
@@ -289,7 +288,7 @@ int id pager 0x7f06003d
 int id progress_circular 0x7f060018
 int id progress_horizontal 0x7f060019
 int id radio 0x7f06002f
-int id rootFrame 0x7f060042
+int id rootFrame 0x7f060043
 int id search_badge 0x7f060032
 int id search_bar 0x7f060031
 int id search_button 0x7f060033
@@ -300,7 +299,7 @@ int id search_mag_icon 0x7f060035
 int id search_plate 0x7f060036
 int id search_src_text 0x7f060037
 int id search_voice_btn 0x7f06003b
-int id section_label 0x7f060041
+int id section_label 0x7f060042
 int id shortcut 0x7f06002e
 int id showCustom 0x7f060007
 int id showHome 0x7f060004
@@ -310,7 +309,8 @@ int id submit_area 0x7f060039
 int id tabMode 0x7f060002
 int id title 0x7f06002b
 int id top_action_bar 0x7f060020
-int id treeContainer 0x7f060043
+int id treeContainer 0x7f060044
+int id treeImageSwitcher 0x7f060041
 int id up 0x7f060021
 int id useLogo 0x7f060003
 int id withText 0x7f06000c
@@ -345,10 +345,11 @@ int layout activity_main 0x7f030018
 int layout fragment_browse_genus 0x7f030019
 int layout fragment_browse_trees 0x7f03001a
 int layout fragment_id 0x7f03001b
-int layout fragment_main 0x7f03001c
-int layout fragment_root 0x7f03001d
-int layout support_simple_spinner_dropdown_item 0x7f03001e
-int layout tree_view 0x7f03001f
+int layout fragment_image 0x7f03001c
+int layout fragment_main 0x7f03001d
+int layout fragment_root 0x7f03001e
+int layout support_simple_spinner_dropdown_item 0x7f03001f
+int layout tree_view 0x7f030020
 int menu browse_genus 0x7f0d0000
 int menu browse_trees 0x7f0d0001
 int menu main 0x7f0d0002

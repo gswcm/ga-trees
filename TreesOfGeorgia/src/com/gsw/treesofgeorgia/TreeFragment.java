@@ -3,18 +3,23 @@ package com.gsw.treesofgeorgia;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import com.gsw.DB.Tree_Main;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;	
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +41,10 @@ public class TreeFragment extends Fragment implements OnClickListener
 	private SQLiteDatabase database=null;
 	static int id;
 	
+	private static DisplayMetrics metrics;
+	private static int imageViewPixelSize;
+	
+	private static final int IMAGEVIEW_RELATIVE_HEIGHT = 15; // % of screen height in portrait orientation
 	String commonName;
     String altName;
     String botName;
@@ -48,6 +57,8 @@ public class TreeFragment extends Fragment implements OnClickListener
 	public static Fragment newInstance(int sid){
 		Fragment t = new TreeFragment();
 		id = sid;
+		metrics = Resources.getSystem().getDisplayMetrics();
+		imageViewPixelSize = (int)(metrics.heightPixels*IMAGEVIEW_RELATIVE_HEIGHT/100.0);
 		return t;
 	}
 	
@@ -103,22 +114,9 @@ public class TreeFragment extends Fragment implements OnClickListener
         TextView desView=(TextView)view.findViewById(R.id.desView);
         desView.setText(desc);
         
-        
-        try {
-        	//InputStream is = null;
-        	addImage[] add = new addImage[8];
-        	int i = 0;
-            String galleryDirectoryName = "organized.reduced/"+commonName.toLowerCase();
-            String[] listImages = getActivity().getAssets().list(galleryDirectoryName);
-            for (String imageName : listImages) {
-            	add[i] = new addImage();
-            	add[i].execute(imageName);
-            	i++;
-                          
-        }
-            } catch (IOException e) {
-            Log.e("GalleryWithHorizontalScrollView", e.getMessage(), e);
-        }   
+		String galleryDirectoryName = "organized.reduced/"+commonName.toLowerCase();
+		addImage add = new addImage();
+		add.execute(galleryDirectoryName);   
               
 	    return view;    
 	}
@@ -175,46 +173,52 @@ public class TreeFragment extends Fragment implements OnClickListener
 	return ((int) ((i / Resources.getSystem().getDisplayMetrics().density)+0.5));
 	
 	}
-	private class addImage extends AsyncTask<String, Void, Bitmap> {
+	
+	
+	private class addImage extends AsyncTask<String, Void, ArrayList<ImageView>> {
 
-        protected Bitmap doInBackground(String... params) {
+        protected ArrayList<ImageView> doInBackground(String... strings) {
         
-        try{	
-        	String galleryDirectoryName = "organized.reduced/"+commonName.toLowerCase();
-        	InputStream is = getActivity().getAssets().open(galleryDirectoryName + "/" + params[0]);
-        	
-            final Bitmap bitmap = BitmapFactory.decodeStream(is);
-            
-            is.close();
-            return bitmap;
-        } catch (IOException e) {
-            Log.e("GalleryWithHorizontalScrollView", e.getMessage(), e);
-        }
-            return null;
+        	ArrayList<Drawable> listOfDrawables = new ArrayList<Drawable>();
+			ArrayList<ImageView> result = new ArrayList<ImageView>();
+			InputStream is = null;
+			Drawable d;
+			Bitmap large, small;
+			try {
+				String[] listImages = getActivity().getAssets().list(strings[0]);
+				for (String imageName : listImages) {
+					is = getActivity().getAssets().open(strings[0] + "/" + imageName);
+					large = BitmapFactory.decodeStream(is);
+					small = Bitmap.createScaledBitmap(large, imageViewPixelSize, imageViewPixelSize, false);
+					d = new BitmapDrawable(getResources(),large);
+					listOfDrawables.add(d);
+					ImageView imageView = new ImageView(MainActivity.con);
+					imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+					imageView.setImageBitmap(small);
+					imageView.setOnClickListener(new onClickListener(listOfDrawables));
+					result.add(imageView);
+					is.close();
+				}
+				
+			}
+			catch (IOException e) {
+				Log.e("TreeFragment.addImage ",e.getMessage());
+			}
+
+			return result;
         }
 
-        protected void onPostExecute(final Bitmap bitmap) {
-        	View view = getView();
-        	LinearLayout myGallery = (LinearLayout) view.findViewById(R.id.myGallery);
-        	ImageView imageView = new ImageView(MainActivity.con);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            Bitmap small = Bitmap.createScaledBitmap(bitmap, getDp(750), getDp(750), false);
-            imageView.setImageBitmap(small);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(getDp(500), getDp(500));
-            lp.setMargins(getDp(4), getDp(4), getDp(4), getDp(4));
-            imageView.setLayoutParams(lp);
-            
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                	View view = getView();
-                	ImageView displayImage = (ImageView) view.findViewById(R.id.displayImage);
-                    displayImage.setImageBitmap(bitmap);
-                }
-            });
-            
-            myGallery.addView(imageView);
-        }
+        protected void onPostExecute(ArrayList<ImageView> list) {
+			View view = getView();
+			LinearLayout treeInfoGallery = (LinearLayout) view.findViewById(R.id.myGallery);
+			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(imageViewPixelSize,imageViewPixelSize);
+			int margin = imageViewPixelSize/20;
+			lp.setMargins(margin,margin,margin,margin);
+			for (ImageView imageView : list) {
+				imageView.setLayoutParams(lp);
+				treeInfoGallery.addView(imageView);
+			}
+		}
 
         @Override
         protected void onPreExecute() {}
@@ -222,4 +226,23 @@ public class TreeFragment extends Fragment implements OnClickListener
         @Override
         protected void onProgressUpdate(Void... values) {}
     }
+	private class onClickListener implements View.OnClickListener {
+
+		private final ArrayList<Drawable> listOfDrawables;
+
+		public onClickListener(ArrayList<Drawable> list) {
+			super();
+			this.listOfDrawables = list;
+		}
+		@Override
+		public void onClick(View clickedImage) {
+			int indexOfImage = ((LinearLayout)clickedImage.getParent()).indexOfChild(clickedImage);
+			getFragmentManager()
+				.beginTransaction()
+				.replace(R.id.rootFrame, TreeImageFragment.getInstance(indexOfImage, listOfDrawables), null)
+				.addToBackStack(null)
+				.setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+				.commit();
+		}
+	}
 }

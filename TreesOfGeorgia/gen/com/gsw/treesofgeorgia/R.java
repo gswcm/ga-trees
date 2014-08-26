@@ -1013,7 +1013,7 @@ containing a value of this type.
         public static final int bnameView=0x7f06004a;
         public static final int checkbox=0x7f06002d;
         public static final int cnameHeader=0x7f060047;
-        public static final int cnameTitle=0x7f060044;
+        public static final int cnameTitle=0x7f060045;
         public static final int cnameView=0x7f060048;
         public static final int collapseActionView=0x7f06000d;
         public static final int default_activity_button=0x7f060028;
@@ -1021,7 +1021,6 @@ containing a value of this type.
         public static final int desView=0x7f06004e;
         public static final int dialog=0x7f06000e;
         public static final int disableHome=0x7f060008;
-        public static final int displayImage=0x7f060046;
         public static final int dropdown=0x7f06000f;
         public static final int edit_query=0x7f060030;
         public static final int end=0x7f060013;
@@ -1038,7 +1037,7 @@ containing a value of this type.
         public static final int listMode=0x7f060001;
         public static final int list_item=0x7f060029;
         public static final int middle=0x7f060012;
-        public static final int myGallery=0x7f060045;
+        public static final int myGallery=0x7f060046;
         public static final int never=0x7f060009;
         public static final int none=0x7f060010;
         public static final int normal=0x7f060000;
@@ -1046,7 +1045,7 @@ containing a value of this type.
         public static final int progress_circular=0x7f060018;
         public static final int progress_horizontal=0x7f060019;
         public static final int radio=0x7f06002f;
-        public static final int rootFrame=0x7f060042;
+        public static final int rootFrame=0x7f060043;
         public static final int search_badge=0x7f060032;
         public static final int search_bar=0x7f060031;
         public static final int search_button=0x7f060033;
@@ -1057,7 +1056,7 @@ containing a value of this type.
         public static final int search_plate=0x7f060036;
         public static final int search_src_text=0x7f060037;
         public static final int search_voice_btn=0x7f06003b;
-        public static final int section_label=0x7f060041;
+        public static final int section_label=0x7f060042;
         public static final int shortcut=0x7f06002e;
         public static final int showCustom=0x7f060007;
         public static final int showHome=0x7f060004;
@@ -1067,7 +1066,8 @@ containing a value of this type.
         public static final int tabMode=0x7f060002;
         public static final int title=0x7f06002b;
         public static final int top_action_bar=0x7f060020;
-        public static final int treeContainer=0x7f060043;
+        public static final int treeContainer=0x7f060044;
+        public static final int treeImageSwitcher=0x7f060041;
         public static final int up=0x7f060021;
         public static final int useLogo=0x7f060003;
         public static final int withText=0x7f06000c;
@@ -1128,10 +1128,11 @@ containing a value of this type.
         public static final int fragment_browse_genus=0x7f030019;
         public static final int fragment_browse_trees=0x7f03001a;
         public static final int fragment_id=0x7f03001b;
-        public static final int fragment_main=0x7f03001c;
-        public static final int fragment_root=0x7f03001d;
-        public static final int support_simple_spinner_dropdown_item=0x7f03001e;
-        public static final int tree_view=0x7f03001f;
+        public static final int fragment_image=0x7f03001c;
+        public static final int fragment_main=0x7f03001d;
+        public static final int fragment_root=0x7f03001e;
+        public static final int support_simple_spinner_dropdown_item=0x7f03001f;
+        public static final int tree_view=0x7f030020;
     }
     public static final class menu {
         public static final int browse_genus=0x7f0d0000;

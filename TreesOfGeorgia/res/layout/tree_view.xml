@@ -46,14 +46,6 @@ android:id="@+id/treeContainer" >
             android:orientation="horizontal"/>
     		
 		</HorizontalScrollView>   
-		  
-		
-        	<ImageView
-        		android:id="@+id/displayImage"
-        		android:layout_width="match_parent"
-        		android:layout_height="wrap_content"
-        		android:contentDescription="Tree Pictures"
-        		android:layout_margin="5dp"/>
 		
 		           
          <View
